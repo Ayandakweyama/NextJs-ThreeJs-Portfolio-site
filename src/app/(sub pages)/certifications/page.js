@@ -230,10 +230,11 @@ export default function CertificationsPage() {
                 </button>
 
                 <div className="w-full md:w-2/3 bg-gray-100 relative h-64 sm:h-80 md:h-auto">
-                  <img 
-                    src={selectedCert.imageUrl} 
-                    alt={`${selectedCert.title} Certificate`} 
-                    className="w-full h-full object-contain p-4"
+                  <Image
+                    src={selectedCert.imageUrl}
+                    alt={`${selectedCert.title} Certificate`}
+                    fill
+                    className="object-contain p-4"
                   />
                 </div>
 

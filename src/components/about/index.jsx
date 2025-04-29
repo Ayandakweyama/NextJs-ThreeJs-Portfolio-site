@@ -148,7 +148,7 @@ const AboutDetails = () => {
           </div>
           
           <p className="font-light text-xs sm:text-sm md:text-base mb-2 sm:mb-3">
-            I'm <span className="font-medium">Ayanda Kweyama</span> —  a passionate software developer, UI/UX designer, and creative thinker who blends technology and design to craft meaningful digital experiences. I'm currently completing my Diploma in ICT at the University of Mpumalanga, with just one final exam left in June 2025.
+            I&apos;m <span className="font-medium">Ayanda Kweyama</span> —  a passionate software developer, UI/UX designer, and creative thinker who blends technology and design to craft meaningful digital experiences. I&apos;m currently completing my Diploma in ICT at the University of Mpumalanga, with just one final exam left in June 2025.
           </p>
           
           <p className="font-light text-xs sm:text-sm md:text-base mb-3 sm:mb-4">
