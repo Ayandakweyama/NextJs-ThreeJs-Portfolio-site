@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0 0;               /* Pure black */
+    --foreground: 225 225 225;         /* Off-white text */
+    --muted: 136 118 106 / 0.6;       /* New accent color at 60% opacity */
+    --accent: 136 118 106;             /* New primary color (#88766A) */
+  }
+}
+
+@layer utilities {
+  .pause {
+    animation-play-state: paused;
+  }
+
+  .custom-bg {
+    @apply bg-background/20 border border-accent/30 border-solid backdrop-blur-[6px] 
+           shadow-[inset_0_0_12px_rgba(136,118,106,0.2)] hover:shadow-[0_0_10px_rgba(136,118,106,0.3)];
+  }
+}
+
+@keyframes move {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(100px, 100px);
+  }
+}
