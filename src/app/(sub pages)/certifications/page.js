@@ -195,7 +195,7 @@ export default function CertificationsPage() {
           </p>
         </motion.div>
 
-        {/* Modal */}
+        {/* Modal - Rearranged with image on right and buttons on left */}
         <AnimatePresence>
           {isModalOpen && selectedCert && (
             <motion.div 
@@ -217,28 +217,20 @@ export default function CertificationsPage() {
                 aria-modal="true"
                 aria-labelledby="modal-title"
               >
-                {/* Close button - properly positioned and functional */}
-                <button
-                  type="button"
-                  className="absolute top-3 right-3 bg-black/60 rounded-full p-1.5 text-white hover:bg-black/80 transition-all z-50 focus:outline-none focus:ring-2 focus:ring-white"
-                  onClick={closeModal}
-                  aria-label="Close modal"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-
-                <div className="w-full md:w-2/3 bg-gray-100 relative h-64 sm:h-80 md:h-auto">
-                  <Image
-                    src={selectedCert.imageUrl}
-                    alt={`${selectedCert.title} Certificate`}
-                    fill
-                    className="object-contain p-4"
-                  />
-                </div>
-
+                {/* Left side - Info and buttons */}
                 <div className="w-full md:w-1/3 p-4 sm:p-6 flex flex-col">
+                  {/* Close button - moved to the left top */}
+                  <button
+                    type="button"
+                    className="self-start mb-4 bg-black/60 rounded-full p-1.5 text-white hover:bg-black/80 transition-all focus:outline-none focus:ring-2 focus:ring-white"
+                    onClick={closeModal}
+                    aria-label="Close modal"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                  
                   <h3 id="modal-title" className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">{selectedCert.title}</h3>
                   <div className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent mb-4">
                     {selectedCert.type}
@@ -259,7 +251,7 @@ export default function CertificationsPage() {
                     </div>
                   </div>
                   
-                  <p className="text-sm sm:text-base text-gray-600 mb-4">
+                  <p className="text-sm sm:text-base text-gray-600 mb-6">
                     This certification validates expertise in {selectedCert.type.toLowerCase()}  
                     and demonstrates proficiency with industry-standard tools and methodologies.
                   </p>
@@ -274,6 +266,16 @@ export default function CertificationsPage() {
                       Verify Certificate
                     </a>
                   </div>
+                </div>
+                
+                {/* Right side - Image */}
+                <div className="w-full md:w-2/3 bg-gray-100 relative h-64 sm:h-80 md:h-auto">
+                  <Image
+                    src={selectedCert.imageUrl}
+                    alt={`${selectedCert.title} Certificate`}
+                    fill
+                    className="object-contain p-4"
+                  />
                 </div>
               </motion.div>
             </motion.div>

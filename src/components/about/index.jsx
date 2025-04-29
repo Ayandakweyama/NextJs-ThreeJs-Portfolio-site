@@ -25,7 +25,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const AboutDetails = () => {
   const [activeSkill, setActiveSkill] = useState(null);
-  const [activeStack, setActiveStack] = useState("popular");
+  const [activeStack, setActiveStack] = useState("frontend");
 
   // Memoized skills data
   const skills = useMemo(() => [
@@ -61,20 +61,8 @@ const AboutDetails = () => {
     }
   ], []);
 
-  // Technology stack data
+  // Technology stack data - Removed "popular" and added Django to frontend
   const techStacks = useMemo(() => ({
-    popular: {
-      title: "Most Used",
-      description: "Technologies I use daily",
-      icon: <Star size={18} className="text-accent" />,
-      items: [
-        { name: "React.js", icon: "react", level: "Expert", color: "#61DAFB", docs: "https://react.dev" },
-        { name: "Next.js", icon: "nextjs", level: "Expert", color: "#000000", docs: "https://nextjs.org" },
-        { name: "Tailwind CSS", icon: "tailwind", level: "Expert", color: "#06B6D4", docs: "https://tailwindcss.com" },
-        { name: "TypeScript", icon: "typescript", level: "Advanced", color: "#3178C6", docs: "https://www.typescriptlang.org" },
-        { name: "Node.js", icon: "nodejs", level: "Advanced", color: "#339933", docs: "https://nodejs.org" }
-      ]
-    },
     frontend: {
       title: "Frontend",
       description: "Beautiful, responsive interfaces",
@@ -83,7 +71,8 @@ const AboutDetails = () => {
         { name: "React.js", icon: "react", level: "Expert", color: "#61DAFB", docs: "https://react.dev" },
         { name: "Next.js", icon: "nextjs", level: "Expert", color: "#000000", docs: "https://nextjs.org" },
         { name: "JavaScript", icon: "js", level: "Expert", color: "#F7DF1E", docs: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
-        { name: "Tailwind CSS", icon: "tailwind", level: "Expert", color: "#06B6D4", docs: "https://tailwindcss.com" }
+        { name: "Tailwind CSS", icon: "tailwind", level: "Expert", color: "#06B6D4", docs: "https://tailwindcss.com" },
+        { name: "Django", icon: "django", level: "Advanced", color: "#092E20", docs: "https://www.djangoproject.com" }
       ]
     },
     backend: {
@@ -108,7 +97,6 @@ const AboutDetails = () => {
   }), []);
 
   const stackIcons = {
-    popular: <Star size={16} className="text-accent" />,
     frontend: <Palette size={16} className="text-accent" />,
     backend: <Server size={16} className="text-accent" />,
     mobile: <Smartphone size={16} className="text-accent" />,
@@ -138,7 +126,7 @@ const AboutDetails = () => {
       <div className="grid grid-cols-12 gap-2 sm:gap-3 md:gap-4 w-full max-w-6xl mx-auto">
         {/* Introduction Card - Full width on mobile */}
         <ItemLayout
-          className="col-span-full lg:col-span-12 row-span-2 flex-col items-start bg-gradient-to-br from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-800 p-4 sm:p-5 md:p-6"
+className="col-span-full lg:col-span-12 row-span-2 flex-col items-start bg-slate-100 dark:bg-gray-900 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-gray-900 dark:to-gray-800 p-4 sm:p-5 md:p-6"
         >
           <div className="flex items-center gap-2 mb-2 sm:mb-3">
             <Code size={18} className="text-accent" />
@@ -167,7 +155,7 @@ const AboutDetails = () => {
               Get in touch <ChevronRight size={14} />
             </Link>
             <Link 
-              href="/resume.pdf" 
+              href="/Ayanda K cv.docx" 
               className="flex items-center justify-center gap-1 sm:gap-2 border border-accent text-accent hover:bg-accent hover:text-white hover:border-accent-dark px-3 sm:px-4 py-2 rounded-md transition-all duration-300 active:scale-95 text-xs sm:text-sm md:text-base"
             >
               <Download size={14} /> Resume
