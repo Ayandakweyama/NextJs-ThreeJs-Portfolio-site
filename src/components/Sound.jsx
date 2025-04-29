@@ -4,29 +4,16 @@ import { Volume2, VolumeX } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-const Modal = ({ onClose, toggle }) => {
+const Modal = ({ onClose }) => {
+  useEffect(() => {
+    const timer = setTimeout(onClose, 5000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
   return createPortal(
     <div className="fixed inset-0 bg-background/60 backdrop-blur-sm flex items-center justify-center">
-      <div
-        className="bg-background/20 border border-accent/30 border-solid backdrop-blur-[6px]
-            py-8 px-6 xs:px-10 sm:px-16 rounded shadow-glass-inset text-center space-y-8
-            "
-      >
-        <p className="font-light">Do you like to play the background music?</p>
-        <div className="flex items-center justify-center space-x-4">
-          <button
-            onClick={toggle}
-            className="px-4 py-2 border border-accent/30 border-solid hover:shadow-glass-sm rounded mr-2"
-          >
-            Yes
-          </button>
-          <button
-            onClick={onClose}
-            className="px-4 py-2 border border-accent/30 border-solid hover:shadow-glass-sm rounded"
-          >
-            No
-          </button>
-        </div>
+      <div className="bg-background/20 border border-accent/30 border-solid backdrop-blur-[6px] py-4 px-6 xs:px-8 sm:px-10 rounded shadow-glass-inset text-center">
+        <p className="font-light">For the best experience, enable audio</p>
       </div>
     </div>,
     document.getElementById("my-modal")
@@ -82,10 +69,7 @@ const Sound = () => {
 
   return (
     <div className="fixed bottom-4 left-4 md:bottom-auto md:top-4 md:left-auto md:right-4 z-50 group">
-      {showModal && (
-        <Modal onClose={() => setShowModal(false)} toggle={toggle} />
-      )}
-
+      {showModal && <Modal onClose={() => setShowModal(false)} />}
       <audio ref={audioRef} loop>
         <source src="/audio/Iskhova.mp3" type="audio/mpeg" />
         your browser does not support the audio element.
