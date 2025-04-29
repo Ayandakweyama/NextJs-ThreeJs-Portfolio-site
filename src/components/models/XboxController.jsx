@@ -12,7 +12,7 @@ import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 
 export default function XboxController(props) {
-  const { nodes, materials } = useGLTF('/models/xbox_inalambric_controller_white (1).glb');
+  const { nodes, materials } = useGLTF('/models/xbox_inalambric_controller_white(1).glb');
   const meshRef = useRef();
   useFrame(() => {
     if (meshRef.current) meshRef.current.rotation.y += 0.005;
@@ -33,4 +33,4 @@ export default function XboxController(props) {
   );
 }
 
-useGLTF.preload('/models/xbox_inalambric_controller_white (1).glb');
+useGLTF.preload('/models/xbox_inalambric_controller_white(1).glb');
