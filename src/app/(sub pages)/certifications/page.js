@@ -31,7 +31,7 @@ const certifications = [
     date: "July 2024",
     type: "IT service management",
     link: "https://www.linkedin.com/learning/certificates/a90ec2bbc783cae56e1dffe2ca4458e002483de557c805acc90206f4a6518cff",
-    imageUrl: "/certifications/ITIL.png"
+    imageUrl: "/certifications/ITIL.jpg"
   },
   {
     id: 1,
