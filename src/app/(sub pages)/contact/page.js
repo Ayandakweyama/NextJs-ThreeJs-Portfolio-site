@@ -34,7 +34,7 @@ export default function Contact() {
             Let&apos;s get in touch
           </h1>
           <p className="text-center font-light text-sm xs:text-base">
-          Step into a world where ideas take flight and innovation shapes reality. Whether you&apos;re here to build, collaborate, or spark new adventures, your words are the first spark of something greater. Use the form below to send your message across this digital horizon — and let&apos;s create something extraordinary together.
+            Step into a world where ideas take flight and innovation shapes reality. Whether you&apos;re here to build, collaborate, or spark new adventures, your words are the first spark of something greater. Use the form below to send your message across this digital horizon — and let&apos;s create something extraordinary together.
           </p>
         </div>
         <Form />
