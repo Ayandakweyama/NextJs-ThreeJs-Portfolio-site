@@ -220,7 +220,8 @@ const AboutDetails = () => {
                   </div>
                 </div>
                 
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 sm:h-3 mb-2 sm:mb-3">
+                <div className="w-full bg-blue-900 rounded-full h-2 sm:h-3 mb-2 sm:mb-3">
+
                   <div 
                     className="bg-accent hover:bg-accent-dark transition-all duration-500 h-2 sm:h-3 rounded-full relative"
                     style={{ width: `${skill.level}%` }}
