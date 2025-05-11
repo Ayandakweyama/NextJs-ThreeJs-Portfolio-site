@@ -226,7 +226,7 @@ const AboutDetails = () => {
                     className="bg-accent hover:bg-accent-dark transition-all duration-500 h-2 sm:h-3 rounded-full relative"
                     style={{ width: `${skill.level}%` }}
                   >
-                    <div className="absolute right-0 top-0 h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-white border-2 border-accent"></div>
+                    <div className="absolute right-0 top-0 h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-blue-900 border-2 border-accent"></div>
                   </div>
                 </div>
                 
@@ -235,7 +235,7 @@ const AboutDetails = () => {
                     {skill.tools.slice(0, 3).map((tool, i) => (
                       <motion.span 
                         key={i} 
-                        className="text-[10px] sm:text-xs px-2 py-0.5 sm:py-1 bg-slate-200 dark:bg-gray-800 rounded-full"
+                        className="text-[10px] sm:text-xs px-2 py-0.5 sm:py-1 bg-blue-900 rounded-full"
                         whileHover={{ scale: 1.05 }}
                       >
                         {tool}
@@ -299,7 +299,7 @@ const AboutDetails = () => {
                       className={`px-2 py-1 text-xs sm:px-3 sm:py-1.5 sm:text-sm rounded-md transition-all duration-300 flex items-center gap-1 sm:whitespace-nowrap ${
                         activeStack === stackKey
                           ? 'bg-accent text-white shadow-sm'
-                          : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700'
+                          : 'bg-blue-900 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700'
                       }`}
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
