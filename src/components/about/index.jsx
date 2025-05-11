@@ -126,9 +126,9 @@ const AboutDetails = () => {
       <div className="grid grid-cols-12 gap-2 sm:gap-3 md:gap-4 w-full max-w-6xl mx-auto">
         {/* Introduction Card - Full width on mobile */}
         <ItemLayout
-className="col-span-full lg:col-span-12 row-span-2 flex-col items-start bg-slate-100 dark:bg-gray-900 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-gray-900 dark:to-gray-800 p-4 sm:p-5 md:p-6"
-        >
-          <div className="flex items-center gap-2 mb-2 sm:mb-3">
+  className="col-span-full lg:col-span-12 row-span-2 flex-col items-start bg-blue-900 bg-gradient-to-br from-blue-800 to-blue-900 p-4 sm:p-5 md:p-6"
+          >
+        <div className="flex items-center gap-2 mb-2 sm:mb-3">
             <Code size={18} className="text-accent" />
             <h2 className="text-lg sm:text-xl md:text-2xl text-left w-full capitalize font-bold">
               Architect of Enchantment
