@@ -21,46 +21,7 @@ const nextConfig = {
 
   // Experimental features for better performance
   experimental: {
-    optimizePackageImports: ['lucide-react', 'framer-motion', '@react-three/fiber', '@react-three/drei'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
-  },
-
-  // Webpack optimizations
-  webpack: (config, { dev, isServer }) => {
-    // Optimize bundle splitting
-    if (!dev && !isServer) {
-      config.optimization.splitChunks.chunks = 'all';
-      config.optimization.splitChunks.cacheGroups = {
-        ...config.optimization.splitChunks.cacheGroups,
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-        },
-        three: {
-          test: /[\\/]node_modules[\\/](three|@react-three)/,
-          name: 'three',
-          chunks: 'all',
-          priority: 10,
-        },
-      };
-    }
-
-    // Add compression
-    if (!dev && !isServer) {
-      config.plugins.push(
-        new config.webpack.optimize.ModuleConcatenationPlugin()
-      );
-    }
-
-    return config;
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
 };
 
