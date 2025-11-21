@@ -149,12 +149,7 @@ export default function Form() {
           {isSubmitting ? "Sending..." : "Send Message"}
         </motion.button>
 
-        <motion.p 
-          variants={itemVariants}
-          className="text-sm text-muted-foreground text-center font-bold"
-        >
-          Alternatively, you can email me directly at AyandaKweyamavezi5@gmail.com or better yet you call or whatsApp me on 0691327681
-        </motion.p>
+        
       </motion.form>
     </>
   );

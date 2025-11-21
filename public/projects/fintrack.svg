@@ -1,0 +1,10 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#1a1a1a"/>
+  <rect x="20" y="20" width="360" height="260" fill="#2a2a2a" rx="10"/>
+  <rect x="60" y="70" width="80" height="50" fill="#10b981" rx="5"/>
+  <rect x="160" y="70" width="80" height="50" fill="#ef4444" rx="5"/>
+  <rect x="260" y="70" width="80" height="50" fill="#f59e0b" rx="5"/>
+  <path d="M60 140 Q200 200 340 140" stroke="#10b981" stroke-width="3" fill="none"/>
+  <text x="200" y="200" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="18" font-weight="bold">FinTrack</text>
+  <text x="200" y="230" text-anchor="middle" fill="#cccccc" font-family="Arial, sans-serif" font-size="12">Finance Tracker</text>
+</svg>

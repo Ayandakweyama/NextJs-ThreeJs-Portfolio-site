@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import Image from "next/image";
 import ItemLayout from "./ItemLayout";
 import Link from "next/link";
 import { 
@@ -347,7 +348,6 @@ const AboutDetails = () => {
                       src={`https://skillicons.dev/icons?i=${tech.icon}`}
                       alt={tech.name}
                       className="w-6 h-6 sm:w-7 sm:h-7 object-contain"
-                      loading="lazy"
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = `https://via.placeholder.com/28/333/fff?text=${tech.name.substring(0,2)}`;

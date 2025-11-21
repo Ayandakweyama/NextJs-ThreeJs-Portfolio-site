@@ -42,6 +42,15 @@ const certifications = [
     link: "https://www.coursera.org/account/accomplishments/verify/SSXVN492ZFEX",
     imageUrl: "/certifications/ui.jpeg"
   },
+ {
+    id: 1,
+    title: "MS-900",
+    issuer: "Microsoft",
+    date: "May 27, 2025",
+    type: "Microsoft compliance",
+    link: "https://learn.microsoft.com/en-us/users/ayanda-2395/credentials/certification/microsoft-365-fundamentals?source=docs&tab=credentials-tab",
+    imageUrl: "/certifications/ms-900.png"
+  },
  
 
 ];

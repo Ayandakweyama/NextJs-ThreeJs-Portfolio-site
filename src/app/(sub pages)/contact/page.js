@@ -1,10 +1,17 @@
 import Image from 'next/image';
 import bg from "../../../../public/background/contact-background.png";
-import Form from "@/components/contact/Form";
 import dynamic from "next/dynamic";
 import RenderModel from "@/components/RenderModel";
 import Navigation from "@/components/navigation";
+
 const NokiaPhone = dynamic(() => import("@/components/models/NokiaPhone"), { ssr: false });
+const Form = dynamic(() => import("@/components/contact/Form"), {
+  loading: () => (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin" />
+    </div>
+  ),
+});
 
 export const metadata = {
   title: "Contact",

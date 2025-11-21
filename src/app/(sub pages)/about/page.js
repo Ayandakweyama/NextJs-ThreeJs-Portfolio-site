@@ -1,12 +1,20 @@
 import Image from "next/image";
 import bg from "../../../../public/background/about-background.png";
 import RenderModel from "@/components/RenderModel";
-import AboutDetails from "@/components/about";
 import dynamic from "next/dynamic";
 import Navigation from "@/components/navigation";
 
 const AsusLaptop = dynamic(() => import("@/components/models/AsusLaptop"), {
   ssr: false,
+});
+
+const AboutDetails = dynamic(() => import("@/components/about"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin" />
+    </div>
+  ),
 });
 
 export const metadata = {

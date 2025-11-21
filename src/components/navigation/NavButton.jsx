@@ -94,22 +94,20 @@ const NavButton = ({
               variants={item}
               href={link}
               target={newTab ? "_blank" : "_self"}
-              className="text-foreground  rounded-full flex items-center justify-center
-        custom-bg
-        "
+              className="text-foreground rounded-full flex items-center justify-center custom-bg shadow-lg hover:shadow-xl transition-all duration-300 border border-accent/20 hover:border-accent/40"
               aria-label={label}
               name={label}
               prefetch={false}
               scroll={false}
             >
-              <span className="relative  w-10 h-10  xs:w-14 xs:h-14 p-2.5 xs:p-4 hover:text-accent">
+              <span className="relative w-12 h-12 xs:w-16 xs:h-16 p-3 xs:p-4 hover:text-accent transition-colors duration-300">
                 {getIcon(icon)}
 
                 <span className="peer bg-transparent absolute top-0 left-0 w-full h-full" />
 
                 <span
                   className={clsx(
-                    "absolute hidden peer-hover:block px-2 py-1 left-full mx-2 top-1/2 -translate-y-1/2 bg-background text-foreground text-sm rounded-md shadow-lg whitespace-nowrap",
+                    "absolute hidden peer-hover:block px-3 py-2 left-full mx-3 top-1/2 -translate-y-1/2 bg-background/95 backdrop-blur-sm text-foreground text-sm rounded-lg shadow-xl whitespace-nowrap border border-accent/20",
                     labelDirection === "left" ? "right-full left-auto" : ""
                   )}
                 >

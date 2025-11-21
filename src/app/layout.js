@@ -10,6 +10,8 @@ import Image from "next/image";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+  preload: true,
 });
 
 // Show spinner on client-side page transitions
@@ -25,8 +27,8 @@ export const metadata = {
   description:
     "A unique creative portfolio designed by Ayanda Kweyama with cutting-edge technologies like Next.js, Tailwind CSS, Three.js, and Framer Motion. Experience the art of modern web development firsthand. Checkout Ayanda Kweyama on youtube.",
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png"
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico"
   },
 };
 

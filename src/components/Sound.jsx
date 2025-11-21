@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { Volume2, VolumeX } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 
 const Modal = ({ onClose }) => {
@@ -13,7 +13,7 @@ const Modal = ({ onClose }) => {
   return createPortal(
     <div className="fixed inset-0 bg-background/60 backdrop-blur-sm flex items-center justify-center">
       <div className="bg-background/20 border border-accent/30 border-solid backdrop-blur-[6px] py-4 px-6 xs:px-8 sm:px-10 rounded shadow-glass-inset text-center">
-        <p className="font-light">For the best experience, enable audio</p>
+        <p className="font-light">🎧 Grab your headphones and enable audio for an immersive musical journey through my portfolio! 🎵</p>
       </div>
     </div>,
     document.getElementById("my-modal")
@@ -25,7 +25,7 @@ const Sound = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const handleFirstUserInteraction = () => {
+  const handleFirstUserInteraction = useCallback(() => {
     const musicConsent = localStorage.getItem("musicConsent");
     if (musicConsent === "true" && !isPlaying) {
       audioRef.current.play();
@@ -35,7 +35,7 @@ const Sound = () => {
     ["click", "keydown", "touchstart"].forEach((event) =>
       document.removeEventListener(event, handleFirstUserInteraction)
     );
-  };
+  }, [isPlaying]);
 
   useEffect(() => {
     const consent = localStorage.getItem("musicConsent");
@@ -56,7 +56,7 @@ const Sound = () => {
     } else {
       setShowModal(true);
     }
-  }, []);
+  }, [handleFirstUserInteraction]);
 
   const toggle = () => {
     const newState = !isPlaying;
@@ -71,7 +71,7 @@ const Sound = () => {
     <div className="fixed bottom-4 left-4 md:bottom-auto md:top-4 md:left-auto md:right-4 z-50 group">
       {showModal && <Modal onClose={() => setShowModal(false)} />}
       <audio ref={audioRef} loop>
-        <source src="/audio/Playtime.mp3" type="audio/mpeg" />
+        <source src="/audio/Sango - Deus É Alegria (feat. Chris McClenney & Marginal Men) - lonewolf906.mp3" type="audio/mpeg" />
         your browser does not support the audio element.
       </audio>
       <motion.button

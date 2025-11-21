@@ -25,7 +25,7 @@ const Navigation = () => {
   const isMedium = size >= 768;
 
   return (
-    <div className="w-full fixed h-screen flex items-center justify-center">
+    <div className="w-full fixed h-screen flex items-center justify-center pointer-events-none">
       <ResponsiveComponent>
         {({ size }) => {
           return size && size >= 480 ? (
@@ -33,7 +33,7 @@ const Navigation = () => {
               variants={container}
               initial="hidden"
               animate="show"
-              className="w-max flex items-center justify-center relative hover:pause animate-spin-slow group"
+              className="w-max flex items-center justify-center relative hover:pause animate-spin-slow group pointer-events-auto"
             >
               {BtnList.map((btn, index) => {
                 const angleRad = (index * angleIncrement * Math.PI) / 180;
@@ -52,7 +52,7 @@ const Navigation = () => {
             <>
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="fixed top-4 right-4 z-50 p-2 text-accent bg-background rounded"
+                className="fixed top-4 right-4 z-50 p-2 text-accent bg-background rounded pointer-events-auto"
                 aria-label="Toggle menu"
               >
                 <Menu className="w-8 h-8" strokeWidth={2} />
@@ -63,18 +63,19 @@ const Navigation = () => {
                   <>
                     {/* mobile overlay blur */}
                     <motion.div
-                      className="fixed inset-0 bg-background/60 backdrop-blur-sm z-40"
+                      className="fixed inset-0 bg-background/60 backdrop-blur-sm z-40 pointer-events-auto"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
+                      onClick={() => setMenuOpen(false)}
                     />
                     <motion.div
                       variants={container}
                       initial="hidden"
                       animate="show"
                       exit="hidden"
-                      className="w-full px-2.5 xs:p-0 xs:w-max flex flex-col space-y-4 items-start xs:items-center justify-center relative group xs:hidden z-50"
+                      className="w-full px-2.5 xs:p-0 xs:w-max flex flex-col space-y-4 items-start xs:items-center justify-center relative group xs:hidden z-50 pointer-events-auto"
                     >
                       {BtnList.slice(0, BtnList.length / 2).map((btn) => (
                         <NavButton key={btn.label} x={0} y={0} {...btn} />
@@ -86,7 +87,7 @@ const Navigation = () => {
                       initial="hidden"
                       animate="show"
                       exit="hidden"
-                      className="w-full px-2.5 xs:p-0 xs:w-max flex flex-col space-y-4 items-end xs:items-center justify-center relative group xs:hidden z-50"
+                      className="w-full px-2.5 xs:p-0 xs:w-max flex flex-col space-y-4 items-end xs:items-center justify-center relative group xs:hidden z-50 pointer-events-auto"
                     >
                       {BtnList.slice(BtnList.length / 2, BtnList.length).map((btn) => (
                         <NavButton key={btn.label} x={0} y={0} {...btn} labelDirection="left" />

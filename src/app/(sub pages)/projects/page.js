@@ -1,6 +1,5 @@
 import Image from "next/image";
 import bg from "../../../../public/background/projects-background.png";
-import ProjectList from "@/components/projects";
 import { projectsData } from "../../data";
 import RenderModel from "@/components/RenderModel";
 import dynamic from "next/dynamic";
@@ -10,9 +9,22 @@ const XboxController = dynamic(() => import("@/components/models/XboxController"
   ssr: false,
 });
 
+const ProjectList = dynamic(() => import("@/components/projects"), {
+  loading: () => (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin" />
+    </div>
+  ),
+});
+
 export const metadata = {
   title: "Projects",
 };
+
+// Enable static generation
+export async function generateStaticParams() {
+  return [];
+}
 
 export default function Home() {
   return (
@@ -27,20 +39,19 @@ export default function Home() {
       <div className="relative z-50 pointer-events-auto">
         <Navigation />
       </div>
-      <section className="relative z-50 w-full max-w-4xl mx-auto px-4 py-8 text-center">
-        <h1 className="text-3xl sm:text-4xl font-bold text-accent mb-4">
+      <section className="relative z-50 w-full max-w-4xl mx-auto lg:mx-0 lg:-ml-16 px-4 py-8 text-center lg:text-left">
+        <h1 className="text-3xl sm:text-4xl font-bold text-accent mb-4 lg:hidden">
           My Projects
         </h1>
-        <p className="text-white/90 text-sm sm:text-base mb-6">
-          Explore a curated selection of my latest work, showcasing skills in Next.js, Three.js, and modern front-end architectures.
-        </p>
       </section>
       <ProjectList projects={projectsData} />
-      <p className="text-center font-bold text-white mt-6">
-        Be on the lookout as I deploy more of my work!
-      </p>
+      <div className="relative z-50 px-4">
+        <p className="text-center lg:text-left font-bold text-white lg:ml-16">
+          Be on the lookout as I deploy more of my work!
+        </p>
+      </div>
 
-      <div className="fixed inset-0 flex items-center justify-center -z-10">
+      <div className="hidden lg:flex fixed top-1/4 right-0 items-center justify-end pr-0 -mr-80 -z-10">
         <RenderModel>
           <XboxController />
         </RenderModel>
