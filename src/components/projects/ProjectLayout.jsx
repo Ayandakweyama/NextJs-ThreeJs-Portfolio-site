@@ -72,7 +72,7 @@ const ProjectLayout = ({ id, name, description, date, demoLink, imageUrls }) => 
           damping: 20
         }}
         type="button"
-        className="group relative overflow-hidden rounded-xl shadow-lg w-[23rem] h-36 sm:w-80 sm:h-64 lg:w-[40rem] lg:h-52 xl:w-[48rem] xl:h-60 transition-all duration-300 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50 z-[60]"
+        className="group relative overflow-hidden rounded-xl w-[23rem] max-w-[90vw] h-36 sm:w-80 sm:h-64 lg:w-[40rem] lg:h-52 transition-all duration-300 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50 z-[60]"
         onClick={() => openModal(project)}
         whileHover={{ y: -5 }}
         whileTap={{ scale: 0.98 }}

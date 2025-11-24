@@ -46,7 +46,7 @@ const ProjectList = ({ projects }) => {
           My Projects
         </h1>
         <p className="text-sm sm:text-base md:text-lg text-white/90 max-w-4xl mx-auto md:mx-0">
-        A strong blend of technical versatility, creativity, and problem-solving across multiple technologies. Their latest milestone is Sebenza AI, a modern CV-analysis platform built with Next.js API routes, advanced UI design, and AI-powered processing. Ayanda is also developing IqHaza Bot, a sophisticated trading bot currently under construction that integrates live market fundamentals, Ichimoku cloud strategies, and market structure for indices like NAS100, US30, and S&amp;P500. Beyond software, Ayanda is finalizing the publication of MuAfrika, a research-driven book exploring Africa&apos;s economic future and the potential for a unified digital currency. Previous projects include e-commerce platforms, booking systems, dynamic barbershop locators, and MERN-based price-tracking tools—all showcasing Ayanda&apos;s ability to build scalable, visually polished, and real-world-focused solutions.
+       I build practical, scalable, and visually polished software solutions across full-stack web development, automation, and modern UI engineering. My work ranges from AI-powered platforms to e-commerce systems, booking applications, barbershop locators, and MERN-based data scrapers. Each project reflects my focus on clean architecture, responsiveness, and real-world functionality. Below is a selection of the systems, tools, and experiments I’ve built using technologies like Next.js, Django, React, Vite, MongoDB, Node.js, Java (Jakarta EE), and AWS.
         </p>
       </motion.div>
 
@@ -96,7 +96,7 @@ const ProjectList = ({ projects }) => {
           variants={container}
           initial="hidden"
           animate="show"
-          className="inline-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 lg:w-full gap-4 sm:gap-6 justify-start justify-items-start"
+          className="inline-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 lg:w-full gap-4 sm:gap-6 justify-start justify-items-center lg:justify-items-start"
         >
           {filteredProjects.map((project, index) => {
             return <ProjectLayout key={project.id} {...project} />;
