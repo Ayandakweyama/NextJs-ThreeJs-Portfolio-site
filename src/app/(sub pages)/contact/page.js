@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import bg from "../../../../public/background/contact-background.png";
 import dynamic from "next/dynamic";
-import RenderModel from "@/components/RenderModel";
-import Navigation from "@/components/navigation";
+const RenderModel = dynamic(() => import("@/components/RenderModel"), { ssr: false });
+const Navigation = dynamic(() => import("@/components/navigation"), { ssr: false });
 
 const NokiaPhone = dynamic(() => import("@/components/models/NokiaPhone"), { ssr: false });
 const Form = dynamic(() => import("@/components/contact/Form"), {

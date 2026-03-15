@@ -2,9 +2,8 @@
 import React, { Suspense } from "react";
 import Image from "next/image";
 import bg from "../../public/background/home-background.png";
-import Navigation from "@/components/navigation";
 import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
+const Navigation = dynamic(() => import("@/components/navigation"), { ssr: false });
 
 // Dynamically load the client-only ModelViewer (default export)
 // Spinner shown during model load
@@ -21,11 +20,8 @@ const ModelViewer = dynamic(
 
 export default function Home() {
   return (
-    <motion.main
-      className="flex min-h-screen flex-col items-center justify-between relative"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeInOut" }}
+    <main
+      className="flex min-h-screen flex-col items-center justify-between relative animate-fade-in"
     >
       <Image
         priority
@@ -48,6 +44,6 @@ export default function Home() {
           </Suspense>
         </div>
       </div>
-    </motion.main>
+    </main>
   );
 }

@@ -1,8 +1,8 @@
 import Image from "next/image";
 import bg from "../../../../public/background/about-background.png";
-import RenderModel from "@/components/RenderModel";
 import dynamic from "next/dynamic";
-import Navigation from "@/components/navigation";
+const RenderModel = dynamic(() => import("@/components/RenderModel"), { ssr: false });
+const Navigation = dynamic(() => import("@/components/navigation"), { ssr: false });
 
 const AsusLaptop = dynamic(() => import("@/components/models/AsusLaptop"), {
   ssr: false,

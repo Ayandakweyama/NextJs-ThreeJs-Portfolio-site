@@ -196,7 +196,7 @@ export const BtnList = [
   },
   {
     label: "Resume",
-    link: "/Ayanda%20K%20cv.docx",
+    link: "/projects/Ayanda_Kweyama%202026%20Q1.docx",
     icon: "resume",
     newTab: true,
   },

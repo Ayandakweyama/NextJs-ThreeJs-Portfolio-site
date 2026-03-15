@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState, useEffect, Suspense } from "react";
-import { useGLTF, OrbitControls, Environment, ContactShadows, Float } from "@react-three/drei";
+import { useGLTF, OrbitControls, Environment, Float } from "@react-three/drei";
 import { useFrame, Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -58,33 +58,18 @@ export function ModelViewer() {
   return (
     <div className="w-full h-[70vh] relative">
       <Canvas
-        shadows
         camera={{ position: [0, 0, 8], fov: 50 }}
-        gl={{ antialias: true }}
+        dpr={[1, 1.5]}
+        gl={{ antialias: false, powerPreference: "high-performance" }}
         onPointerDown={() => setIsRotating(false)}
         onPointerUp={() => setIsRotating(true)}
       >
         {/* Lighting Setup */}
-        <ambientLight intensity={0.5} />
-        <spotLight
-          position={[10, 10, 10]}
-          angle={0.15}
-          penumbra={1}
-          intensity={2}
-          castShadow
-          shadow-mapSize={2048}
-        />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} />
+        <ambientLight intensity={0.6} />
+        <directionalLight position={[10, 10, 10]} intensity={1.5} />
         
         {/* Environment */}
         <Environment preset="city" />
-        <ContactShadows
-          position={[0, -2, 0]}
-          opacity={0.8}
-          scale={10}
-          blur={2}
-          far={5}
-        />
         
         {/* Model */}
         <Suspense fallback={null}>

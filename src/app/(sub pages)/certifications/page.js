@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Navigation from "@/components/navigation";
+import dynamic from "next/dynamic";
+const Navigation = dynamic(() => import("@/components/navigation"), { ssr: false });
 import Image from "next/image";
 import bg from "../../../../public/background/certifications-background.png";
 import { motion, AnimatePresence } from "framer-motion";
@@ -150,7 +151,7 @@ export default function CertificationsPage() {
           variants={container}
           initial="hidden"
           animate="show"
-          className="inline-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-start justify-items-start"
+          className="inline-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-items-center sm:justify-items-start"
         >
           {certifications.map((cert) => (
             <motion.button

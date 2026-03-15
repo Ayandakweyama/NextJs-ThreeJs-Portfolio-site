@@ -156,7 +156,7 @@ const AboutDetails = () => {
               Get in touch <ChevronRight size={14} />
             </Link>
             <Link 
-              href="/Ayanda K cv.docx" 
+              href="/projects/Ayanda_Kweyama 2026 Q1.docx" 
               className="flex items-center justify-center gap-1 sm:gap-2 border border-accent text-accent hover:bg-accent hover:text-white hover:border-accent-dark px-3 sm:px-4 py-2 rounded-md transition-all duration-300 active:scale-95 text-xs sm:text-sm md:text-base"
             >
               <Download size={14} /> Resume
