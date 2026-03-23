@@ -11,6 +11,18 @@ Websites:
 
 export const projectsData = [
   {
+    id: 8,
+    name: "Beaufort West Water Status Dashboard",
+    description: "A real-time water status monitoring dashboard for the Beaufort West Municipality, providing residents with live updates on water levels, usage statistics, and infrastructure status.",
+    date: "2026-02-16",
+    demoLink: "https://waterstatus.beaufortwest.gov.za/",
+    imageUrls: [
+      "/projects/bwm water/Screenshot 2026-02-16 113157.png",
+      "/projects/bwm water/Screenshot 2026-03-17 113735.png"
+    ],
+    category: "development"
+  },
+  {
     id: 1,
     name: "Sebenza-AI",
     description: "an intelligent career assistant built with Next.js ,Puppeteer and Prisma. It helps users analyze their CVs, generate professional insights, and receive personalized career recommendations.",

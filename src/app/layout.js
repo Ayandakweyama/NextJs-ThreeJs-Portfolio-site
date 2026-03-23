@@ -2,6 +2,7 @@ import "./globals.css";
 import dynamic from 'next/dynamic';
 const FireFliesBackground = dynamic(() => import('@/components/FireFliesBackground'), { ssr: false });
 const Sound = dynamic(() => import('@/components/Sound'), { ssr: false });
+const Chatbot = dynamic(() => import('@/components/Chatbot'), { ssr: false });
 import Link from "next/link";
 import Image from "next/image";
 
@@ -54,6 +55,7 @@ export default function RootLayout({ children }) {
         {children}
         <FireFliesBackground />
         <Sound />
+        <Chatbot />
         <div id="my-modal" />
       </body>
     </html>
