@@ -3,9 +3,14 @@ import mammoth from "mammoth";
 import { readFile } from "fs/promises";
 import path from "path";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let openai = null;
+
+function getOpenAI() {
+  if (!openai && process.env.OPENAI_API_KEY) {
+    openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return openai;
+}
 
 let cachedResumeText = null;
 
@@ -92,7 +97,15 @@ export async function POST(request) {
     const resumeText = await getResumeText();
     const systemPrompt = buildSystemPrompt(resumeText);
 
-    const completion = await openai.chat.completions.create({
+    const client = getOpenAI();
+    if (!client) {
+      return Response.json(
+        { error: "OpenAI API key not configured" },
+        { status: 500 }
+      );
+    }
+
+    const completion = await client.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         { role: "system", content: systemPrompt },
