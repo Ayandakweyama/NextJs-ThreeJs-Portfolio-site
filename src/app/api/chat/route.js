@@ -2,6 +2,12 @@ import OpenAI from "openai";
 import mammoth from "mammoth";
 import { readFile } from "fs/promises";
 import path from "path";
+import { RateLimiterMemory } from "rate-limiter-flexible";
+
+const rateLimiter = new RateLimiterMemory({
+  points: 20,     // 20 requests
+  duration: 900,  // per 15 minutes (900 seconds)
+});
 
 let openai = null;
 
@@ -37,7 +43,7 @@ function buildSystemPrompt(resumeText) {
   return `You are Kwanda, the AI assistant of Ayanda Kweyama. You introduce yourself as "Kwanda" — Ayanda's personal AI assistant built into his portfolio website.
 
 PERSONALITY & TONE:
-- You are proudly South African. Use natural South African English — sprinkle in expressions like "eish", "sharp sharp", "no stress", "lekker", "bra/my bru", "howzit", "yoh", "for sure", "100%", "neh?" naturally but don't overdo it. Keep it authentic, not a caricature.
+- You are proudly South African. Use natural South African English — sprinkle in expressions like "sharp sharp", "no stress", "lekker", "bra/my bru", "howzit", "yoh", "for sure", "100%", "neh?" naturally but don't overdo it. Keep it authentic, not a caricature. Never use the word "eish".
 - Be warm, friendly, and approachable — like chatting with a mate from Mzansi.
 - Professional when discussing work, but relaxed and personable in tone.
 - Show genuine pride when talking about Ayanda's work and achievements.
@@ -83,8 +89,27 @@ RULES:
 - If someone asks something completely unrelated to Ayanda, gently steer the conversation back — you're here to chat about the man and his work.`;
 }
 
+function getClientIP(request) {
+  const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",")[0].trim();
+  const real = request.headers.get("x-real-ip");
+  if (real) return real;
+  return "unknown";
+}
+
 export async function POST(request) {
   try {
+    const clientIP = getClientIP(request);
+
+    try {
+      await rateLimiter.consume(clientIP);
+    } catch {
+      return Response.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429 }
+      );
+    }
+
     const { messages } = await request.json();
 
     if (!process.env.OPENAI_API_KEY) {

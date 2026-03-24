@@ -14,6 +14,8 @@ const Chatbot = () => {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [messageCount, setMessageCount] = useState(0);
+  const MESSAGE_LIMIT = 20;
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -35,11 +37,25 @@ const Chatbot = () => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
+    if (messageCount >= MESSAGE_LIMIT) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content:
+            "Yoh, we've hit the message limit for this session! If you still have questions, reach out to Ayanda directly via the contact page — he'd love to chat with you, sharp sharp.",
+        },
+      ]);
+      setInput("");
+      return;
+    }
+
     const userMessage = { role: "user", content: input.trim() };
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
     setInput("");
     setIsLoading(true);
+    setMessageCount((prev) => prev + 1);
 
     try {
       const res = await fetch("/api/chat", {
