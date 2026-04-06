@@ -11,6 +11,20 @@ Websites:
 
 export const projectsData = [
   {
+    id: 9,
+    name: "ResPlug",
+    description: "A student accommodation platform built with a Next.js frontend and a Django backend. ResPlug connects students with verified accommodation listings, making it easy to find and secure housing near their university.",
+    date: "2026-04-06",
+    demoLink: "https://github.com/Calvindesavage/Accomodation",
+    imageUrls: [
+      "/projects/resplug/Screenshot 2026-04-06 084559.png",
+      "/projects/resplug/Screenshot 2026-04-06 084625.png",
+      "/projects/resplug/Screenshot 2026-04-06 084657.png",
+      "/projects/resplug/Screenshot 2026-04-06 084740.png"
+    ],
+    category: "development"
+  },
+  {
     id: 8,
     name: "Beaufort West Water Status Dashboard",
     description: "A real-time water status monitoring dashboard for the Beaufort West Municipality, providing residents with live updates on water levels, usage statistics, and infrastructure status.",
