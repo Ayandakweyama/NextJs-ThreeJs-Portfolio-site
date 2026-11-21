@@ -74,3 +74,13 @@ NextJs-ThreeJs-Portfolio-site
 ├── tailwind.config.js     # Tailwind configuration
 └── package.json           # Dependencies and scripts
 
+
+## Contact form delivery
+
+The contact form sends email through Resend using server-side environment variables. Set these in .env.local for development or in the deployment environment:
+
+- RESEND_API_KEY — a Resend sending API key.
+- CONTACT_FROM_EMAIL — an address on a domain verified in Resend, for example Portfolio <contact@example.com>.
+- CONTACT_TO_EMAIL — optional destination override. It defaults to the email address on the Contact page.
+
+Restart the dev server after configuring these values. Visitor replies go to the address provided in the form. Without sender credentials, the form reports that delivery is unavailable and the direct email link remains available.

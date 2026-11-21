@@ -1,16 +1,14 @@
 "use client";
 
+import MotionHeading from "@/components/MotionHeading";
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import ItemLayout from "./ItemLayout";
 import Link from "next/link";
 import { 
-  Code, 
   Briefcase, 
   Clock, 
   Award, 
-  ChevronRight, 
-  Download, 
   ChevronDown, 
   ChevronUp,
   Star,
@@ -116,57 +114,18 @@ const AboutDetails = () => {
   const getLevelBadgeClass = (level) => {
     switch(level) {
       case 'Expert': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-      case 'Advanced': return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
+      case 'Advanced': return 'bg-blue-100 text-blue-800 dark:bg-white/10 dark:text-blue-200';
       case 'Intermediate': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
       default: return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200';
     }
   };
 
   return (
-    <section className="py-4 sm:py-6 md:py-8 w-full px-3 sm:px-4 md:px-6">
-      <div className="grid grid-cols-12 gap-2 sm:gap-3 md:gap-4 w-full max-w-6xl mx-auto">
-        {/* Introduction Card - Full width on mobile */}
-        <ItemLayout
-  className="col-span-full lg:col-span-12 row-span-2 flex-col items-start bg-blue-900 bg-gradient-to-br from-blue-800 to-blue-900 p-4 sm:p-5 md:p-6"
-          >
-        <div className="flex items-center gap-2 mb-2 sm:mb-3">
-            <Code size={18} className="text-accent" />
-            <h2 className="text-lg sm:text-xl md:text-2xl text-left w-full capitalize font-bold">
-              Architect of Enchantment
-            </h2>
-          </div>
-          
-          <p className="font-light text-xs sm:text-sm md:text-base mb-2 sm:mb-3">
-            I&apos;m <span className="font-medium">Ayanda Kweyama</span> —  a passionate software developer, UI/UX designer, and creative thinker who blends technology and design to craft meaningful digital experiences. I&apos;m currently completing my Diploma in ICT at the University of Mpumalanga, with just one final exam left in June 2025.
-          </p>
-          
-          <p className="font-light text-xs sm:text-sm md:text-base mb-3 sm:mb-4">
-            I build dynamic applications using <span className="text-accent">React.js</span>, <span className="text-accent">Next.js</span>, <span className="text-accent">Kotlin</span>, and modern architectures with strong design principles.With a strong background in graphic design and mobile development, I strive to create solutions that are not only functional and secure, but visually captivating. Every project is an opportunity to innovate, inspire, and push boundaries ulimately shaping the future of digital experiences, one line of code at a time.
-          </p>
-          
-          <p className="font-light text-xs sm:text-sm md:text-base italic mb-3 sm:mb-4">
-            Every project is an opportunity to innovate and push boundaries.
-          </p>
-          
-          <div className="mt-3 sm:mt-4 flex flex-col xs:flex-row gap-2 sm:gap-3 w-full">
-            <Link 
-              href="/contact" 
-              className="flex items-center justify-center gap-1 sm:gap-2 bg-accent hover:bg-accent-dark text-white px-3 sm:px-4 py-2 rounded-md transition-all duration-300 active:scale-95 text-xs sm:text-sm md:text-base"
-            >
-              Get in touch <ChevronRight size={14} />
-            </Link>
-            <Link 
-              href="/projects/Ayanda_Kweyama 2026 Q1.docx" 
-              className="flex items-center justify-center gap-1 sm:gap-2 border border-accent text-accent hover:bg-accent hover:text-white hover:border-accent-dark px-3 sm:px-4 py-2 rounded-md transition-all duration-300 active:scale-95 text-xs sm:text-sm md:text-base"
-            >
-              <Download size={14} /> Resume
-            </Link>
-          </div>
-        </ItemLayout>
-
+    <section aria-label="Experience and skills" className="w-full">
+      <div className="grid gap-5 sm:gap-6">
         {/* Stats Cards - Stacked on mobile, side-by-side on larger screens */}
-        <div className="col-span-full flex flex-col xs:flex-row gap-2 sm:gap-3">
-          <ItemLayout className="flex-1 text-accent hover:bg-accent/10 transition-all duration-300 active:scale-95 p-3 sm:p-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-5">
+          <ItemLayout className="text-[#dbc2ac]">
             <div className="flex items-center gap-2 sm:gap-3">
               <Briefcase size={18} className="flex-shrink-0" />
               <div>
@@ -178,7 +137,7 @@ const AboutDetails = () => {
             </div>
           </ItemLayout>
 
-          <ItemLayout className="flex-1 text-accent hover:bg-accent/10 transition-all duration-300 active:scale-95 p-3 sm:p-4">
+          <ItemLayout className="text-[#dbc2ac]">
             <div className="flex items-center gap-2 sm:gap-3">
               <Clock size={18} className="flex-shrink-0" />
               <div>
@@ -192,18 +151,17 @@ const AboutDetails = () => {
         </div>
 
         {/* Expertise Cards Section - Enhanced Responsiveness */}
-        <ItemLayout className="col-span-full p-2 sm:p-4 md:p-5">
+        <ItemLayout>
           <div className="flex items-center gap-2 mb-3 sm:mb-4">
             <Award size={18} className="text-accent" />
-            <h3 className="text-base sm:text-lg md:text-xl font-semibold">Expertise Levels</h3>
+            <MotionHeading as="h2" className="text-xl font-semibold sm:text-2xl">Expertise levels</MotionHeading>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3 md:gap-4">
+          <div className="grid grid-cols-1 items-start sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {skills.map((skill, index) => (
               <motion.div 
                 key={index} 
-                className={`transition-all duration-300 p-2 sm:p-3 md:p-4 rounded-lg border border-gray-200 dark:border-gray-700 shadow-xs hover:shadow-sm ${activeSkill === index ? 'bg-accent/5 border-accent' : ''}`}
-                onClick={() => handleSkillTap(index)}
+                className={`transition-all duration-300 p-3 sm:p-4 rounded-xl border border-white/15 shadow-xs hover:shadow-sm ${activeSkill === index ? 'bg-accent/5 border-accent' : ''}`}
                 whileHover={{ y: -2 }}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -211,23 +169,23 @@ const AboutDetails = () => {
               >
                 <div className="flex justify-between items-center mb-2 sm:mb-3">
                   <div className="flex items-center gap-2">
-                    <div className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 rounded-full flex items-center justify-center bg-accent text-white">
+                    <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white/10">
                       {skill.icon}
                     </div>
-                    <h4 className="font-medium text-sm sm:text-base md:text-lg lg:text-xl">{skill.name}</h4>
+                    <MotionHeading as="h3" className="font-medium text-sm sm:text-base md:text-lg lg:text-xl">{skill.name}</MotionHeading>
                   </div>
                   <div className="flex items-center gap-1">
                     <span className="text-accent font-bold text-sm sm:text-base">{skill.level}%</span>
                   </div>
                 </div>
                 
-                <div className="w-full bg-blue-900 rounded-full h-2 sm:h-3 mb-2 sm:mb-3">
+                <div className="w-full bg-white/10 rounded-full h-2 sm:h-3 mb-2 sm:mb-3">
 
                   <div 
                     className="bg-accent hover:bg-accent-dark transition-all duration-500 h-2 sm:h-3 rounded-full relative"
                     style={{ width: `${skill.level}%` }}
                   >
-                    <div className="absolute right-0 top-0 h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-blue-900 border-2 border-accent"></div>
+                    <div className="absolute right-0 top-0 h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-white/10 border-2 border-accent"></div>
                   </div>
                 </div>
                 
@@ -236,7 +194,7 @@ const AboutDetails = () => {
                     {skill.tools.slice(0, 3).map((tool, i) => (
                       <motion.span 
                         key={i} 
-                        className="text-[10px] sm:text-xs px-2 py-0.5 sm:py-1 bg-blue-900 rounded-full"
+                        className="text-[10px] sm:text-xs px-2 py-0.5 sm:py-1 bg-white/10 rounded-full"
                         whileHover={{ scale: 1.05 }}
                       >
                         {tool}
@@ -246,7 +204,7 @@ const AboutDetails = () => {
                       <span className="text-[10px] sm:text-xs px-2 py-0.5 sm:py-1 bg-accent text-white rounded-full">+{skill.tools.length - 3}</span>
                     )}
                   </div>
-                  <button className="text-accent hover:text-accent-dark">
+                  <button type="button" aria-label={`Toggle ${skill.name} tools`} aria-expanded={activeSkill === index} onClick={() => handleSkillTap(index)} className="inline-flex size-11 shrink-0 items-center justify-center rounded-lg text-[#dbc2ac] hover:bg-white/10">
                     {activeSkill === index ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                   </button>
                 </div>
@@ -254,7 +212,7 @@ const AboutDetails = () => {
                 <AnimatePresence>
                   {activeSkill === index && (
                     <motion.div 
-                      className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-200 dark:border-gray-700"
+                      className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-white/15"
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
@@ -265,7 +223,7 @@ const AboutDetails = () => {
                         {skill.tools.map((tool, i) => (
                           <motion.span 
                             key={i} 
-                            className="text-[10px] sm:text-xs flex items-center gap-1 px-2 py-0.5 sm:py-1 bg-slate-200 dark:bg-gray-800 rounded-full"
+                            className="text-[10px] sm:text-xs flex items-center gap-1 px-2 py-0.5 sm:py-1 bg-white/10 rounded-full"
                             whileHover={{ scale: 1.05 }}
                           >
                             <CheckCircle size={10} className="text-accent" />
@@ -282,11 +240,11 @@ const AboutDetails = () => {
         </ItemLayout>
 
         {/* Technology Stack Section */}
-        <ItemLayout className="custom-bg col-span-full p-4 sm:p-6 md:p-8 rounded-xl flex flex-col space-y-6 sm:space-y-8">
+        <ItemLayout >
           <div className="flex flex-col gap-2 sm:gap-3 mb-3 sm:mb-4">
             <div className="flex items-center gap-2">
               <Hash size={18} className="text-accent" />
-              <h3 className="text-base sm:text-lg md:text-xl font-semibold">Technology Stack</h3>
+              <MotionHeading as="h2" className="text-xl font-semibold sm:text-2xl">Technology stack</MotionHeading>
             </div>
             
             {/* Scrollable filter buttons for mobile */}
@@ -296,11 +254,13 @@ const AboutDetails = () => {
                   {Object.keys(techStacks).map((stackKey) => (
                     <motion.button
                       key={stackKey}
+                      type="button"
+                      aria-pressed={activeStack === stackKey}
                       onClick={() => handleStackChange(stackKey)}
-                      className={`px-2 py-1 text-xs sm:px-3 sm:py-1.5 sm:text-sm rounded-md transition-all duration-300 flex items-center gap-1 sm:whitespace-nowrap ${
+                      className={`min-h-11 px-3 text-sm rounded-md transition-all duration-300 flex items-center gap-1 sm:whitespace-nowrap ${
                         activeStack === stackKey
                           ? 'bg-accent text-white shadow-sm'
-                          : 'bg-blue-900 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700'
+                          : 'bg-white/10 hover:bg-white/20'
                       }`}
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
@@ -318,8 +278,8 @@ const AboutDetails = () => {
             <div className="flex items-center gap-2 mb-2 sm:mb-3">
               {techStacks[activeStack].icon}
               <div>
-                <h4 className="font-medium text-sm sm:text-base md:text-lg">{techStacks[activeStack].title}</h4>
-                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                <MotionHeading as="h3" className="font-medium text-sm sm:text-base md:text-lg">{techStacks[activeStack].title}</MotionHeading>
+                <p className="text-xs sm:text-sm text-white/65">
                   {techStacks[activeStack].description}
                 </p>
               </div>
@@ -344,21 +304,21 @@ const AboutDetails = () => {
                       boxShadow: `0 2px 8px ${tech.color}08`
                     }}
                   >
-                    <img
+                    <Image
                       src={`https://skillicons.dev/icons?i=${tech.icon}`}
-                      alt={tech.name}
-                      className="w-6 h-6 sm:w-7 sm:h-7 object-contain"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = `https://via.placeholder.com/28/333/fff?text=${tech.name.substring(0,2)}`;
-                      }}
+                      alt=""
+                      width={28}
+                      height={28}
+                      unoptimized
+                      className="size-6 object-contain sm:size-7"
+                      onError={(event) => { event.currentTarget.hidden = true; }}
                     />
                   </div>
                   
                   {/* Tech Name */}
-                  <h4 className="font-medium text-xs sm:text-sm mb-1 sm:mb-2 text-center text-gray-800 dark:text-gray-200 line-clamp-2">
+                  <MotionHeading as="h3" lines={2} tone="light" className="font-medium text-xs sm:text-sm mb-1 sm:mb-2 text-center">
                     {tech.name}
-                  </h4>
+                  </MotionHeading>
                   
                   {/* Skill Level */}
                   <span className={`text-[10px] sm:text-xs font-medium px-2 py-0.5 sm:py-1 rounded-full ${getLevelBadgeClass(tech.level)}`}>

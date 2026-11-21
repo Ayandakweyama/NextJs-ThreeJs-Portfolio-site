@@ -1,101 +1,83 @@
 "use client";
-import { motion } from "framer-motion";
-import { Volume2, VolumeX } from "lucide-react";
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import { createPortal } from "react-dom";
 
-const Modal = ({ onClose }) => {
-  useEffect(() => {
-    const timer = setTimeout(onClose, 5000);
-    return () => clearTimeout(timer);
-  }, [onClose]);
+import dynamic from "next/dynamic";
+import Script from "next/script";
+import { ChevronDown, Music2, Square } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { shuffleTracks } from "./music/houseTracks";
 
-  return createPortal(
-    <div className="fixed inset-0 bg-background/60 backdrop-blur-sm flex items-center justify-center">
-      <div className="bg-background/20 border border-accent/30 border-solid backdrop-blur-[6px] py-4 px-6 xs:px-8 sm:px-10 rounded shadow-glass-inset text-center">
-        <p className="font-light"> Please grab your headphones and enable audio for an immersive journey through my portfolio!</p>
-      </div>
-    </div>,
-    document.getElementById("my-modal")
-  );
-};
+const SoundCloudTrack = dynamic(() => import("./music/SoundCloudTrack"), {
+  loading: () => <p role="status" className="text-sm text-white/80">Loading music player…</p>,
+});
 
-const Sound = () => {
-  const audioRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+export default function Sound() {
+  const queue = useRef([]);
+  const lastTrack = useRef(null);
+  const [track, setTrack] = useState(null);
+  const [apiReady, setApiReady] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const controls = useRef(null);
+  const toggle = useRef(null);
+  const dismissTimer = useRef(null);
 
-  const handleFirstUserInteraction = useCallback(() => {
-    const musicConsent = localStorage.getItem("musicConsent");
-    if (musicConsent === "true" && !isPlaying) {
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
+  useEffect(() => () => window.clearTimeout(dismissTimer.current), []);
 
-    ["click", "keydown", "touchstart"].forEach((event) =>
-      document.removeEventListener(event, handleFirstUserInteraction)
-    );
-  }, [isPlaying]);
+  const collapse = useCallback(() => {
+    if (controls.current?.contains(document.activeElement)) toggle.current?.focus();
+    setExpanded(false);
+  }, []);
 
-  useEffect(() => {
-    const consent = localStorage.getItem("musicConsent");
-    const consentTime = localStorage.getItem("consentTime");
+  const onPlaybackStart = useCallback(() => {
+    window.clearTimeout(dismissTimer.current);
+    dismissTimer.current = window.setTimeout(collapse, 1400);
+  }, [collapse]);
 
-    if (
-      consent &&
-      consentTime &&
-      new Date(consentTime).getTime() + 3 * 24 * 60 * 60 * 1000 > new Date()
-    ) {
-      setIsPlaying(consent === "true");
+  const nextTrack = useCallback((reveal = true) => {
+    window.clearTimeout(dismissTimer.current);
+    if (!queue.current.length) queue.current = shuffleTracks(lastTrack.current);
+    const next = queue.current.shift();
+    lastTrack.current = next.id;
+    setTrack(next);
+    if (reveal) setExpanded(true);
+  }, []);
 
-      if (consent === "true") {
-        ["click", "keydown", "touchstart"].forEach((event) =>
-          document.addEventListener(event, handleFirstUserInteraction)
-        );
-      }
-    } else {
-      setShowModal(true);
-    }
-  }, [handleFirstUserInteraction]);
+  const advanceTrack = useCallback(() => nextTrack(false), [nextTrack]);
 
-  const toggle = () => {
-    const newState = !isPlaying;
-    setIsPlaying(!isPlaying);
-    newState ? audioRef.current.play() : audioRef.current.pause();
-    localStorage.setItem("musicConsent", String(newState));
-    localStorage.setItem("consentTime", new Date().toISOString());
-    setShowModal(false);
-  };
+  function toggleControls() {
+    window.clearTimeout(dismissTimer.current);
+    if (!track) nextTrack();
+    else if (expanded) collapse();
+    else setExpanded(true);
+  }
+
+  function stopPlayback() {
+    window.clearTimeout(dismissTimer.current);
+    collapse();
+    setTrack(null);
+  }
+
+  const label = !track ? "Play house music" : expanded ? "Hide music controls" : "Show music controls";
+  const Icon = expanded ? ChevronDown : Music2;
 
   return (
-    <div className="fixed bottom-4 left-4 md:bottom-auto md:top-4 md:left-auto md:right-4 z-50 group">
-      {showModal && <Modal onClose={() => setShowModal(false)} />}
-      <audio ref={audioRef} loop>
-        <source src="/audio/Joga.mp3" type="audio/mpeg" />
-        your browser does not support the audio element.
-      </audio>
-      <motion.button
-        onClick={toggle}
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 1 }}
-        className={`w-10 h-10 xs:w-14 xs:h-14 rounded-full flex items-center justify-center cursor-pointer z-50 p-2.5 xs:p-4 custom-bg transition-colors duration-300 ${isPlaying ? "text-accent" : "text-foreground"}`}
-        aria-label={isPlaying ? "Mute sound" : "Unmute sound"}
-      >
-        {isPlaying ? (
-          <Volume2
-            className="w-full h-full"
-            strokeWidth={1.5}
-          />
-        ) : (
-          <VolumeX
-            className="w-full h-full"
-            strokeWidth={1.5}
-          />
-        )}
-      </motion.button>
-    </div>
+    <>
+      {track && (
+        <section ref={controls} aria-label="House music player" id="house-music-player"
+          data-expanded={expanded} aria-hidden={!expanded} inert={expanded ? undefined : ""}
+          className="music-player-card fixed bottom-[4.75rem] left-4 right-4 z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-2xl border border-white/20 bg-black/90 p-4 shadow-xl backdrop-blur-xl sm:right-auto sm:w-96">
+          <Script src="https://w.soundcloud.com/player/api.js" strategy="afterInteractive" onReady={() => setApiReady(true)} />
+          <SoundCloudTrack key={track.id} track={track} apiReady={apiReady} onNext={nextTrack} onFinish={advanceTrack} onPlaybackStart={onPlaybackStart} />
+          <button type="button" onClick={stopPlayback} className="mt-2 inline-flex min-h-10 items-center gap-2 text-sm text-white/75 hover:text-white">
+            <Square size={13} aria-hidden="true" /> Stop music
+          </button>
+        </section>
+      )}
+      <button ref={toggle} type="button" onClick={toggleControls} aria-label={label}
+        aria-expanded={expanded} aria-controls={track ? "house-music-player" : undefined}
+        className="fixed bottom-4 left-4 z-50 inline-flex size-11 items-center justify-center gap-2 rounded-full border border-white/25 bg-black/90 font-medium text-white hover:border-[#dbc2ac] sm:w-auto sm:px-3 sm:text-sm">
+        <Icon size={20} aria-hidden="true" />
+        <span className="hidden sm:inline">{label}</span>
+      </button>
+    </>
   );
-};
-
-export default Sound;
+}

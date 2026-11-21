@@ -1,21 +1,9 @@
-import Image from "next/image";
-import bg from "../../../../public/background/about-background.png";
-import dynamic from "next/dynamic";
-const RenderModel = dynamic(() => import("@/components/RenderModel"), { ssr: false });
-const Navigation = dynamic(() => import("@/components/navigation"), { ssr: false });
-
-const AsusLaptop = dynamic(() => import("@/components/models/AsusLaptop"), {
-  ssr: false,
-});
-
-const AboutDetails = dynamic(() => import("@/components/about"), {
-  ssr: false,
-  loading: () => (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin" />
-    </div>
-  ),
-});
+import PageIntro from "@/components/PageIntro";
+import MotionHeading from "@/components/MotionHeading";
+import AboutScene from "@/components/about/AboutScene";
+import Link from "next/link";
+import AboutDetails from "@/components/about";
+import { resumeUrl } from "../../navigation";
 
 export const metadata = {
   title: "About",
@@ -24,41 +12,33 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <>
-      {/* Background Image */}
-      <Image
-        src={bg}
-        priority
-        sizes="100vw"
-        alt="Next.js Portfolio website's about page background image"
-        className="-z-50 fixed top-0 left-0 w-full h-full object-cover object-center opacity-50"
-      />
-
-      {/* Navigation */}
-      <div className="relative z-50 pointer-events-auto">
-        <Navigation />
+      <PageIntro title="About" description="My background, skills, and the tools I use to build for the web and mobile." />
+      <div className="space-y-6">
+        <section aria-labelledby="about-title" className="grid items-stretch overflow-hidden rounded-3xl border border-white/15 bg-black/65 backdrop-blur-md md:grid-cols-[1.15fr_1fr]">
+          <div className="px-6 py-9 sm:p-10 lg:p-14">
+            <MotionHeading as="h2" id="about-title" className="text-2xl font-semibold tracking-tight sm:text-3xl">
+              Ayanda Kweyama
+            </MotionHeading>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/90">
+              I&apos;m a software developer and UI/UX designer. I studied ICT at the University of Mpumalanga and bring a background in graphic design and mobile development to my work.
+            </p>
+            <p className="mt-3 max-w-xl leading-relaxed text-white/70">
+              I build web and mobile applications with React, Next.js, and Kotlin, with a focus on how they look, feel, and work.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link href="/contact" className="inline-flex min-h-11 items-center rounded-lg bg-[#dbc2ac] px-4 font-semibold text-black hover:bg-[#efdbc9]">
+                Get in touch
+              </Link>
+              <a href={resumeUrl} download className="inline-flex min-h-11 items-center rounded-lg border border-white/25 px-4 text-white hover:bg-white/10">
+                Download resume
+              </a>
+            </div>
+          </div>
+          <AboutScene />
+        </section>
+        <AboutDetails />
+        <Link href="/certifications" className="inline-flex min-h-11 items-center text-[#dbc2ac] underline underline-offset-4">Explore my certifications</Link>
       </div>
-
-      {/* 3D Model Render */}
-      <div className="w-full h-3/5 xs:h-3/4 sm:h-screen absolute top-[35%] sm:top-1/2 -translate-y-1/2 left-0 z-10">
-        <RenderModel>
-          <AsusLaptop position={[0, 0.5, 0]} />
-        </RenderModel>
-      </div>
-
-      {/* Hero Header Section - Optimized for Mobile */}
-      <div className="relative w-full h-screen flex flex-col items-center justify-center">
-        <div className="absolute flex flex-col items-center text-center top-[40%] sm:top-[60%] left-1/2 -translate-y-1/2 -translate-x-1/2 w-full px-4">
-          <h1 className="font-bold text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-accent leading-tight">
-            Ayanda Kweyama
-          </h1>
-          <p className="font-light text-foreground text-base sm:text-lg mt-2 sm:mt-4 max-w-xs sm:max-w-md">
-            Meet the creative behind this portfolio
-          </p>
-        </div>
-      </div>
-
-      {/* About Details Section */}
-      <AboutDetails />
     </>
   );
 }

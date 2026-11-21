@@ -1,61 +1,39 @@
-import Image from "next/image";
-import bg from "../../../../public/background/projects-background.png";
+import PageIntro from "@/components/PageIntro";
+import Link from "next/link";
+import ProjectCard from "@/components/projects/ProjectCard";
 import { projectsData } from "../../data";
-import dynamic from "next/dynamic";
-const RenderModel = dynamic(() => import("@/components/RenderModel"), { ssr: false });
-const Navigation = dynamic(() => import("@/components/navigation"), { ssr: false });
 
-const XboxController = dynamic(() => import("@/components/models/XboxController"), {
-  ssr: false,
-});
+export const metadata = { title: "Projects" };
 
-const ProjectList = dynamic(() => import("@/components/projects"), {
-  loading: () => (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin" />
-    </div>
-  ),
-});
+const categories = [
+  { value: "all", label: "All" },
+  { value: "development", label: "Development" },
+  { value: "uxui", label: "UX/UI" },
+  { value: "graphic", label: "Graphic" },
+];
 
-export const metadata = {
-  title: "Projects",
-};
+export default function Projects({ searchParams }) {
+  const active = categories.find(({ value }) => value === searchParams.category)?.value ?? "all";
+  const projects = projectsData.filter(({ category }) => active === "all" || active === category);
 
-// Enable static generation
-export async function generateStaticParams() {
-  return [];
-}
-
-export default function Home() {
   return (
     <>
-      <Image
-        src={bg}
-        alt="Next.js Portfolio website's about page background image"
-        className="-z-50 fixed top-0 left-0 w-full h-full object-cover object-center opacity-50"
-        priority
-        sizes="100vw"
-      />
-      <div className="relative z-50 pointer-events-auto">
-        <Navigation />
-      </div>
-      <section className="relative z-50 w-full max-w-4xl mx-auto lg:mx-0 lg:-ml-16 px-4 py-8 text-center lg:text-left">
-        <h1 className="text-3xl sm:text-4xl font-bold text-accent mb-4 lg:hidden">
-          My Projects
-        </h1>
+      <section>
+        <PageIntro title="Projects" description="A selection of full-stack applications, interface design, and visual identity work." />
+        <nav aria-label="Project categories" className="mb-6 flex flex-wrap gap-2">
+          {categories.map(({ value, label }) => (
+            <Link key={value} href={value === "all" ? "/projects" : `/projects?category=${value}`}
+              scroll={false} aria-current={active === value ? "page" : undefined}
+              className={`inline-flex min-h-11 items-center rounded-full border px-4 text-sm font-medium ${active === value ? "border-[#dbc2ac] bg-[#dbc2ac] text-black" : "border-white/25 bg-black/60 text-white/80 hover:bg-white/15"}`}>
+              {label}
+            </Link>
+          ))}
+        </nav>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => <ProjectCard key={project.id} project={project} categoryFilter={active === "all" ? undefined : active} />)}
+        </div>
+        <Link href="/contact" className="mt-8 inline-flex min-h-11 items-center text-[#dbc2ac] underline underline-offset-4">Get in touch about a project</Link>
       </section>
-      <ProjectList projects={projectsData} />
-      <div className="relative z-50 px-4">
-        <p className="text-center lg:text-left font-bold text-white lg:ml-16">
-          Be on the lookout as I deploy more of my work!
-        </p>
-      </div>
-
-      <div className="hidden lg:flex fixed top-1/4 right-0 items-center justify-end pr-0 -mr-80 -z-10">
-        <RenderModel>
-          <XboxController />
-        </RenderModel>
-      </div>
     </>
   );
 }

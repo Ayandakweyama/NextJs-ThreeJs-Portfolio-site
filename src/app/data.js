@@ -13,6 +13,13 @@ export const projectsData = [
   {
     id: 9,
     name: "ResPlug",
+    slug: "resplug",
+    summary: "Helps students find verified accommodation near their university.",
+    caseStudy: {
+      build: "A student accommodation platform with a Next.js frontend and a Django backend.",
+      decision: "Separate the browser experience from the backend so each can use a framework suited to its responsibilities.",
+      outcome: "Students can browse verified housing listings near their university.",
+    },
     description: "A student accommodation platform built with a Next.js frontend and a Django backend. ResPlug connects students with verified accommodation listings, making it easy to find and secure housing near their university.",
     date: "2026-04-06",
     demoLink: "https://github.com/Calvindesavage/Accomodation",
@@ -27,6 +34,13 @@ export const projectsData = [
   {
     id: 8,
     name: "Beaufort West Water Status Dashboard",
+    slug: "beaufort-west-water-dashboard",
+    summary: "Gives Beaufort West residents a single place to check local water status.",
+    caseStudy: {
+      build: "A municipal dashboard that brings water levels, usage statistics, and infrastructure status together.",
+      decision: "Show live status and usage in one view so residents can check the current situation in context.",
+      outcome: "Residents can open the public dashboard to see the latest reported conditions.",
+    },
     description: "A real-time water status monitoring dashboard for the Beaufort West Municipality, providing residents with live updates on water levels, usage statistics, and infrastructure status.",
     date: "2026-02-16",
     demoLink: "https://waterstatus.beaufortwest.gov.za/",
@@ -39,6 +53,8 @@ export const projectsData = [
   {
     id: 1,
     name: "Sebenza-AI",
+    featuredOrder: 2,
+    summary: "An AI career assistant that analyzes CVs and offers personalized career recommendations.",
     description: "an intelligent career assistant built with Next.js ,Puppeteer and Prisma. It helps users analyze their CVs, generate professional insights, and receive personalized career recommendations.",
     date: "2025-07-15",
     demoLink: "https://sebenza-ai.up.railway.app/",
@@ -54,7 +70,9 @@ export const projectsData = [
   },
   {
     id: 2,
-    name: "Ump Merch",
+    name: "UMP Merch",
+    featuredOrder: 1,
+    summary: "An online store for University of Mpumalanga merchandise.",
     description: "An e-commerce platform built using Django, SQLite, and Jazzmin, featuring a responsive front-end and custom CSS aligned with UMP’s branding. Includes product management, shopping cart logic, authentication, and a user-friendly admin interface.",
     date: "2024-06-05",
     demoLink: "https://github.com/Ayandakweyama/UMPMerchecommerceApp",
@@ -104,7 +122,7 @@ export const projectsData = [
 
  {
     id: 4,
-    name: "Old Porfolio site",
+    name: "Old portfolio site",
     description: "A fully responsive personal portfolio website built using HTML, CSS, and JavaScript — developed entirely on my mobile phone during my ICT diploma studies. This project demonstrates my determination, adaptability, and ability to build real-world solutions even with limited resources.",
     date: "2022-05-30",
     demoLink: "https://ayandakweyama.github.io/Portfolio-Site/index.html",
@@ -194,36 +212,4 @@ export const projectsData = [
     category: "graphic"
   },
   
-];
-
-export const BtnList = [
-  { label: "Home", link: "/", icon: "home", newTab: false },
-  { label: "About", link: "/about", icon: "about", newTab: false },
-  { label: "Projects", link: "/projects", icon: "projects", newTab: false },
-  { label: "Contact", link: "/contact", icon: "contact", newTab: false },
-  { label: "Certifications", link: "/certifications", icon: "certifications", newTab: false },
-  {
-    label: "Github",
-    link: "https://www.github.com/Ayandakweyama",
-    icon: "github",
-    newTab: true,
-  },
-  {
-    label: "LinkedIn",
-    link: "https://www.linkedin.com/in/ayanda-kweyama-vezi",
-    icon: "linkedin",
-    newTab: true,
-  },
-  {
-    label: "X",
-    link: "https://x.com/Aya_kwevezi?t=AvLHlV4GiWP8QlbXArCedQ&s=09",
-    icon: "twitter",
-    newTab: true,
-  },
-  {
-    label: "Resume",
-    link: "/projects/Ayanda_Kweyama%202026%20Q1.docx",
-    icon: "resume",
-    newTab: true,
-  },
 ];

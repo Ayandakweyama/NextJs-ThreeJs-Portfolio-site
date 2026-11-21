@@ -1,10 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-const Navigation = dynamic(() => import("@/components/navigation"), { ssr: false });
+
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import bg from "../../../../public/background/certifications-background.png";
-import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { X } from "lucide-react";
+import MotionHeading from "@/components/MotionHeading";
+import PageIntro from "@/components/PageIntro";
 
 const certifications = [
   {
@@ -21,7 +22,7 @@ const certifications = [
     title: "Django Essential Training",
     issuer: "LinkedIn Learning",
     date: "July 2024",
-    type: "Frontend Development",
+    type: "Web Development",
     link: "https://www.linkedin.com/learning/certificates/19ca54046d6aaafcbad8abd9eebe0ef29acaedb37950fc910dbfc6a6dcc0aaf8",
     imageUrl: "/certifications/django.png"
   },
@@ -35,7 +36,7 @@ const certifications = [
     imageUrl: "/certifications/ITIL.jpg"
   },
   {
-    id: 1,
+    id: 4,
     title: "Foundations of User Experience",
     issuer: "Google & Coursera",
     date: "February 2023",
@@ -44,7 +45,7 @@ const certifications = [
     imageUrl: "/certifications/ui.jpeg"
   },
  {
-    id: 1,
+    id: 5,
     title: "MS-900",
     issuer: "Microsoft",
     date: "May 27, 2025",
@@ -52,246 +53,63 @@ const certifications = [
     link: "https://learn.microsoft.com/en-us/users/ayanda-2395/credentials/certification/microsoft-365-fundamentals?source=docs&tab=credentials-tab",
     imageUrl: "/certifications/ms-900.png"
   },
- 
-
 ];
 
 export default function CertificationsPage() {
-  const [selectedCert, setSelectedCert] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const dialogRef = useRef(null);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const openModal = (cert) => {
-    setSelectedCert(cert);
-    setIsModalOpen(true);
-    document.body.style.overflow = 'hidden';
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    document.body.style.overflow = 'auto';
-  };
-
-  // Handle keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && isModalOpen) {
-        closeModal();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isModalOpen]);
-
-  // Enhanced animation variants
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        when: 'beforeChildren',
-        staggerChildren: 0.15,
-        delayChildren: 0.1
-      }
-    }
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 30, scale: 0.8 },
-    show: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: 'spring',
-        stiffness: 120,
-        damping: 20
-      }
-    }
-  };
+    if (selected && !dialogRef.current.open) dialogRef.current.showModal();
+  }, [selected]);
 
   return (
     <>
-      <div className="relative z-50 pointer-events-auto">
-        <Navigation />
+      <PageIntro title="Certifications" description="Browse my credentials in data analytics, web development, design, and IT. Open a certificate to see it and find the issuer’s verification link." />
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {certifications.map((certificate) => (
+          <article key={certificate.id} className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#141211]">
+            <div className="relative aspect-video border-b border-white/10 bg-[#24211f]">
+              <Image src={certificate.imageUrl} alt="" fill sizes="(min-width: 1024px) 34vw, (min-width: 640px) 50vw, 100vw" className="object-contain p-3" />
+            </div>
+            <div className="flex flex-1 flex-col items-start p-5">
+              <p className="text-sm text-white/65">{certificate.type}</p>
+              <MotionHeading as="h2" className="mt-2 text-xl font-semibold">{certificate.title}</MotionHeading>
+              <p className="mb-4 mt-2 text-sm text-white/75">{certificate.issuer} · {certificate.date}</p>
+              <button type="button" onClick={() => setSelected(certificate)}
+                aria-label={`View certificate: ${certificate.title}`}
+                className="mt-auto inline-flex min-h-11 items-center font-medium text-[#dbc2ac] underline-offset-4 hover:underline">
+                View certificate
+              </button>
+            </div>
+          </article>
+        ))}
       </div>
-      
-      <Image
-        src={bg}
-        priority
-        sizes="100vw"
-        alt="Certifications page background"
-        className="-z-50 fixed top-0 left-0 w-full h-full object-cover object-center opacity-50"
-      />
-      
-      <main className="relative z-10 flex flex-col items-center md:items-start py-12 sm:py-16 px-0 w-full max-w-full mx-0">
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center md:text-left mb-8 sm:mb-12"
-        >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-3 text-accent">My Certifications</h1>
-          <p className="text-sm sm:text-base md:text-lg text-white/90 max-w-2xl mx-auto md:mx-0">
-            Professional credentials showcasing expertise across various technologies and disciplines.
-          </p>
-        </motion.div>
+      <Link href="/projects" className="mt-8 inline-flex min-h-11 items-center text-[#dbc2ac] underline underline-offset-4">See my projects</Link>
 
-        <motion.div 
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="inline-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-items-center sm:justify-items-start"
-        >
-          {certifications.map((cert) => (
-            <motion.button
-              key={cert.id}
-              variants={item}
-              type="button"
-              className="group relative overflow-hidden rounded-xl shadow-lg w-[23rem] h-36 sm:w-60 sm:h-56 transition-all duration-300 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
-              onClick={() => openModal(cert)}
-              whileHover={{ y: -5 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              {/* Background overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-black/30 to-black/50 z-10"></div>
-              
-              {/* Hover effect overlay */}
-              <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/20 transition-all duration-300 z-20"></div>
-              
-              {/* Content */}
-              <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-5 z-30 text-left pointer-events-none">
-                <div className="flex justify-between items-end">
-                  <div>
-                    <p className="text-xs sm:text-sm uppercase tracking-wide font-medium mb-1 text-accent/90">{cert.type}</p>
-                    <h2 className="text-lg sm:text-xl font-bold mb-1 text-white group-hover:text-accent transition-colors line-clamp-2">{cert.title}</h2>
-                    <p className="text-xs sm:text-sm text-white/90">{cert.issuer} • {cert.date}</p>
-                  </div>
-                  <div className="rounded-full bg-white/20 p-1.5 sm:p-2 backdrop-blur-sm group-hover:bg-accent/80 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5 text-white">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Decorative elements */}
-              <div className="absolute top-4 right-4 rounded-full bg-white/20 backdrop-blur-sm p-1.5 z-30 pointer-events-none">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-4 h-4 text-white">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                </svg>
-              </div>
-            </motion.button>
-          ))}
-        </motion.div>
-        <motion.div
-          variants={item}
-          initial="hidden"
-          animate="show"
-          className="w-full flex justify-center mt-8"
-        >
-          <p className="bg-accent/20 text-accent backdrop-blur-sm px-6 py-2 rounded-full font-medium text-sm sm:text-base">
-            Be on the lookout as I complete other certifications!
-          </p>
-        </motion.div>
-
-        {/* Modal - Rearranged with image on right and buttons on left */}
-        <AnimatePresence>
-          {isModalOpen && selectedCert && (
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
-              onClick={closeModal}
-            >
-              <motion.div 
-                initial={{ scale: 0.95, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.95, opacity: 0 }}
-                transition={{ type: "spring", damping: 20, stiffness: 300 }}
-                className="bg-white rounded-xl shadow-2xl overflow-hidden max-w-4xl w-full max-h-[90vh] flex flex-col md:flex-row relative"
-                onClick={(e) => e.stopPropagation()}
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="modal-title"
-              >
-                {/* Left side - Info and buttons */}
-                <div className="w-full md:w-1/3 p-4 sm:p-6 flex flex-col">
-                  {/* Close button - moved to the left top */}
-                  <button
-                    type="button"
-                    className="self-start mb-4 bg-black/60 rounded-full p-1.5 text-white hover:bg-black/80 transition-all focus:outline-none focus:ring-2 focus:ring-white"
-                    onClick={closeModal}
-                    aria-label="Close modal"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                  
-                  <h3 id="modal-title" className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">{selectedCert.title}</h3>
-                  <div className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent mb-4">
-                    {selectedCert.type}
-                  </div>
-                  
-                  <div className="space-y-3 mb-4">
-                    <div className="flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 text-gray-500 mr-2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                      </svg>
-                      <p className="text-sm sm:text-base text-gray-700">{selectedCert.issuer}</p>
-                    </div>
-                    <div className="flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 text-gray-500 mr-2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-                      </svg>
-                      <p className="text-sm sm:text-base text-gray-700">Issued: {selectedCert.date}</p>
-                    </div>
-                  </div>
-                  
-                  <p className="text-sm sm:text-base text-gray-600 mb-6">
-                    This certification validates expertise in {selectedCert.type.toLowerCase()}  
-                    and demonstrates proficiency with industry-standard tools and methodologies.
-                  </p>
-                  
-                  <div className="mt-auto pt-4">
-                    <a 
-                      href={selectedCert.link} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="block w-full py-2 sm:py-3 px-4 bg-accent text-white text-center rounded-lg font-medium hover:bg-accent/90 transition-colors text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
-                    >
-                      Verify Certificate
-                    </a>
-                  </div>
-                </div>
-                
-                {/* Right side - Image */}
-                <div className="w-full md:w-2/3 bg-gray-100 relative h-64 sm:h-80 md:h-auto">
-                  <Image
-                    src={selectedCert.imageUrl}
-                    alt={`${selectedCert.title} Certificate`}
-                    fill
-                    className="object-contain p-4"
-                  />
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </main>
+      <dialog ref={dialogRef} aria-labelledby="certificate-title"
+        className="m-auto max-h-[90dvh] w-[calc(100%-2rem)] max-w-4xl overflow-y-auto rounded-2xl border border-white/15 bg-[#141211] p-0 text-white backdrop:bg-black/80 backdrop:backdrop-blur-sm"
+        onClose={() => setSelected(null)}>
+        {selected && (
+          <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
+            <div className="p-5 sm:p-7">
+              <button type="button" aria-label="Close certificate" onClick={() => dialogRef.current.close()}
+                className="mb-4 inline-flex size-11 items-center justify-center rounded-full border border-white/25 hover:bg-white/10">
+                <X size={20} aria-hidden="true" />
+              </button>
+              <MotionHeading as="h2" id="certificate-title" className="text-2xl font-semibold">{selected.title}</MotionHeading>
+              <p className="mt-3 text-sm text-white/75">{selected.issuer} · {selected.date}</p>
+              <a href={selected.link} target="_blank" rel="noopener noreferrer"
+                className="mt-5 inline-flex min-h-11 items-center rounded-lg bg-[#dbc2ac] px-4 font-semibold text-black hover:bg-[#efdbc9]">
+                Verify with issuer
+              </a>
+            </div>
+            <div className="relative min-h-56 bg-[#24211f] sm:min-h-80">
+              <Image src={selected.imageUrl} alt={`${selected.title} certificate`} fill sizes="(min-width: 768px) 56vw, 100vw" className="object-contain p-4" />
+            </div>
+          </div>
+        )}
+      </dialog>
     </>
   );
 }

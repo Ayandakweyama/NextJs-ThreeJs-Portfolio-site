@@ -1,22 +1,9 @@
-"use client";
-import { motion } from "framer-motion";
 import clsx from "clsx";
 
-const ItemLayout = ({ children, className }) => {
+export default function ItemLayout({ children, className }) {
   return (
-    <motion.div
-      initial={{ scale: 0 }}
-      whileInView={{ scale: 1 }}
-      transition={{ duration: 0.5 }}
-      viewport={{ once: true }}
-      className={clsx(
-        "custom-bg p-6 sm:p-8 rounded-xl flex items-center justify-center space-y-8",
-        className
-      )}
-    >
+    <div className={clsx("min-w-0 rounded-2xl border border-white/15 bg-black/65 p-5 backdrop-blur-md sm:p-6", className)}>
       {children}
-    </motion.div>
+    </div>
   );
-};
-
-export default ItemLayout;
+}

@@ -1,51 +1,30 @@
-import Image from 'next/image';
-import bg from "../../../../public/background/contact-background.png";
-import dynamic from "next/dynamic";
-const RenderModel = dynamic(() => import("@/components/RenderModel"), { ssr: false });
-const Navigation = dynamic(() => import("@/components/navigation"), { ssr: false });
+import { Mail } from "lucide-react";
+import PageIntro from "@/components/PageIntro";
+import MotionHeading from "@/components/MotionHeading";
+import Form from "@/components/contact/Form";
+import { contactEmail } from "@/components/contact/email";
 
-const NokiaPhone = dynamic(() => import("@/components/models/NokiaPhone"), { ssr: false });
-const Form = dynamic(() => import("@/components/contact/Form"), {
-  loading: () => (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin" />
-    </div>
-  ),
-});
-
-export const metadata = {
-  title: "Contact",
-};
+export const metadata = { title: "Contact" };
 
 export default function Contact() {
   return (
     <>
-      <Image
-        src={bg}
-        alt="Next.js Portfolio website&apos;s contact page background image"
-        priority
-        sizes="100vw"
-        className="-z-50 fixed top-0 left-0 w-full h-full object-cover object-center opacity-50"
-      />
-      <div className="relative z-50 pointer-events-auto">
-        <Navigation />
+      <PageIntro title="Contact" description="Get in touch about a project, a role, or a collaboration." />
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]">
+        <section className="rounded-2xl border border-white/15 bg-black/65 p-5 backdrop-blur-md sm:p-8" aria-labelledby="contact-message-heading">
+          <MotionHeading as="h2" id="contact-message-heading" className="text-2xl font-semibold">Write a message</MotionHeading>
+          <p className="mb-6 mt-2 text-sm leading-relaxed text-white/75">Tell me what you have in mind and leave an email address so I can reply.</p>
+          <Form />
+        </section>
+        <aside className="relative min-w-0 overflow-hidden rounded-2xl border border-white/15 bg-black/65 p-5 backdrop-blur-md sm:p-8">
+          <Mail size={22} aria-hidden="true" className="mb-4 text-[#dbc2ac]" />
+          <MotionHeading as="h2" className="text-2xl font-semibold">Email me directly</MotionHeading>
+          <p className="mt-2 text-sm leading-relaxed text-white/75">Use your email app if you prefer or need to attach files.</p>
+          <a className="mt-3 inline-flex min-h-11 items-center break-all text-[#dbc2ac] underline underline-offset-4" href={`mailto:${contactEmail}`}>
+            {contactEmail}
+          </a>
+        </aside>
       </div>
-      <div className="w-1/2 h-3/5 xs:h-3/4 sm:h-screen absolute top-[65%] -translate-y-1/2 left-0 -z-10">
-        <RenderModel>
-          <NokiaPhone position={[0, 1.5, 0]} scale={[0.005, 0.005, 0.005]} />
-        </RenderModel>
-      </div>
-      <article className="relative w-full flex flex-col items-center justify-center py-8 sm:py-0 space-y-8">
-        <div className="flex flex-col items-center justify-center space-y-6 w-full sm:w-3/4">
-          <h1 className="text-accent font-semibold text-center text-4xl capitalize">
-            Let&apos;s get in touch
-          </h1>
-          <p className="text-center font-light text-sm xs:text-base">
-            Step into a world where ideas take flight and innovation shapes reality. Whether you&apos;re here to build, collaborate, or spark new adventures, your words are the first spark of something greater. Use the form below to send your message across this digital horizon — and let&apos;s create something extraordinary together.
-          </p>
-        </div>
-        <Form />
-      </article>
     </>
   );
 }

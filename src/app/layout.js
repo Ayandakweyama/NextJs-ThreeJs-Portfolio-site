@@ -1,23 +1,25 @@
 import "./globals.css";
-import dynamic from 'next/dynamic';
-const FireFliesBackground = dynamic(() => import('@/components/FireFliesBackground'), { ssr: false });
-const Sound = dynamic(() => import('@/components/Sound'), { ssr: false });
-const Chatbot = dynamic(() => import('@/components/Chatbot'), { ssr: false });
-import Link from "next/link";
-import Image from "next/image";
+import localFont from "next/font/local";
+import Sound from "@/components/Sound";
+import Chatbot from "@/components/Chatbot";
+import SiteAtmosphere from "@/components/SiteAtmosphere";
+import SiteHeader from "@/components/SiteHeader";
+import { resumeUrl, socialLinks } from "./navigation";
 
-// Show spinner on client-side page transitions
-const PageLoader = dynamic(() => import('@/components/PageLoader'), { ssr: false });
+const inter = localFont({
+  src: "./fonts/inter-latin.woff2",
+  weight: "100 900",
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export const metadata = {
   title: {
-    template:
-      "Next.js Portfolio Created with Three.js and Tailwind CSS | Ayanda Kweyama",
-    default:
-      "Next.js Portfolio Created with Three.js and Tailwind CSS by Ayanda Kweyama",
+    template: "%s | Ayanda Kweyama",
+    default: "Ayanda Kweyama | Full-stack developer",
   },
   description:
-    "A unique creative portfolio designed by Ayanda Kweyama with cutting-edge technologies like Next.js, Tailwind CSS, Three.js, and Framer Motion. Experience the art of modern web development firsthand. Checkout Ayanda Kweyama on youtube.",
+    "Explore Ayanda Kweyama’s full-stack applications, interface design, and interactive web projects.",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico"
@@ -27,36 +29,19 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body
-        className="bg-background text-foreground font-inter"
-      >
-        <PageLoader />
-        {/* Logo home button, top-middle on mobile, top-left on desktop */}
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 sm:left-4 sm:translate-x-0 z-50">
-          <Link href="/">
-            <Image
-              src="/logo.png"
-              width={40}
-              height={40}
-              alt="Home"
-              priority
-              className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16"
-            />
-          </Link>
-        </div>
-        {children}
-        <FireFliesBackground />
+      <body className={`${inter.variable} relative isolate bg-background text-foreground font-inter`}>
+        <SiteAtmosphere>
+          <SiteHeader />
+          {children}
+          <footer className="mx-auto flex max-w-6xl flex-wrap gap-5 px-6 pb-24 pt-8 text-sm text-white/75">
+            {socialLinks.map(({ label, link }) => (
+              <a key={label} href={link} className="underline underline-offset-4 hover:text-white">{label}</a>
+            ))}
+            <a href={resumeUrl} download className="underline underline-offset-4 hover:text-white">Download resume</a>
+          </footer>
+        </SiteAtmosphere>
         <Sound />
         <Chatbot />
-        <div id="my-modal" />
       </body>
     </html>
   );
