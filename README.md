@@ -84,3 +84,7 @@ The contact form sends email through Resend using server-side environment variab
 - CONTACT_TO_EMAIL — optional destination override. It defaults to the email address on the Contact page.
 
 Restart the dev server after configuring these values. Visitor replies go to the address provided in the form. Without sender credentials, the form reports that delivery is unavailable and the direct email link remains available.
+
+## Kwanda chat in production
+
+Set OPENAI_API_KEY in the Vercel Production environment and redeploy to enable AI replies. OPENAI_CHAT_MODEL is optional and defaults to gpt-4o-mini. Kwanda uses the public portfolio as its source. If the API key is missing, the model request fails, or the endpoint cannot be reached, the chat switches to a built-in portfolio guide.

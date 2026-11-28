@@ -1,4 +1,5 @@
 "use client";
+import { chatHistoryLimit, chatMessageLimit, portfolioReply } from "@/lib/kwanda";
 import MotionHeading from "@/components/MotionHeading";
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,6 +16,7 @@ export default function ChatPanel({ isOpen }) {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [messageCount, setMessageCount] = useState(0);
+  const [replyMode, setReplyMode] = useState(null);
   const MESSAGE_LIMIT = 20;
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -57,47 +59,31 @@ export default function ChatPanel({ isOpen }) {
     setIsLoading(true);
     setMessageCount((prev) => prev + 1);
 
+    let answer;
     try {
-      const res = await fetch("/api/chat", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(8500),
         body: JSON.stringify({
-          messages: updatedMessages.map((m) => ({
-            role: m.role,
-            content: m.content,
+          messages: updatedMessages.slice(-chatHistoryLimit).map(({ role, content }) => ({
+            role,
+            content: content.slice(0, chatMessageLimit),
           })),
         }),
       });
-
-      const data = await res.json();
-
-      if (data.error) {
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: "assistant",
-            content:
-              "Sorry, I'm having trouble connecting right now. Please try again later or reach out to Ayanda directly via the contact page!",
-          },
-        ]);
-      } else {
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: data.message },
-        ]);
+      if (response.ok) {
+        const result = await response.json();
+        if (typeof result.message === "string" && result.message.trim()) answer = result;
       }
     } catch {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content:
-            "Oops, something went wrong. Please try again or contact Ayanda directly!",
-        },
-      ]);
-    } finally {
-      setIsLoading(false);
+      // The portfolio guide can still answer when the API cannot be reached.
     }
+
+    const { message, links, mode = "portfolio" } = answer ?? portfolioReply(updatedMessages);
+    setReplyMode(mode);
+    setMessages((previous) => [...previous, { role: "assistant", content: message, links }]);
+    setIsLoading(false);
   };
 
   return (
@@ -129,7 +115,7 @@ export default function ChatPanel({ isOpen }) {
             </div>
             <div className="ml-auto flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-[10px] text-foreground/60">Online</span>
+              <span className="text-[10px] text-foreground/60">{replyMode === "ai" ? "AI chat" : "Portfolio guide"}</span>
             </div>
           </div>
 
@@ -158,6 +144,13 @@ export default function ChatPanel({ isOpen }) {
                   }`}
                 >
                   {msg.content}
+                  {msg.links && (
+                    <ul className="mt-2 space-y-1">
+                      {msg.links.map(({ label, href, download }) => (
+                        <li key={href}><a href={href} download={download} className="text-[#dbc2ac] underline underline-offset-2">{label}</a></li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
                 {msg.role === "user" && (
                   <div className="w-6 h-6 rounded-full bg-accent/40 flex items-center justify-center flex-shrink-0 mt-1">
@@ -207,6 +200,7 @@ export default function ChatPanel({ isOpen }) {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about Ayanda..."
+              maxLength={chatMessageLimit}
               className="flex-1 bg-white/10 text-foreground text-sm px-4 py-2.5 rounded-full outline-none placeholder:text-foreground/40 focus:ring-1 focus:ring-accent/50 transition-all"
               disabled={isLoading}
             />
