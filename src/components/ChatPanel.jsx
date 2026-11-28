@@ -10,7 +10,7 @@ export default function ChatPanel({ isOpen }) {
     {
       role: "assistant",
       content:
-        "Howzit! I'm Kwanda, Ayanda's AI assistant. Ask me anything about his skills, projects, experience, or how to get in touch — I'm here to help, sharp sharp!",
+        "Howzit! I’m Kwanda, Ayanda’s portfolio assistant. Ask me about his projects, technical skills, work experience, or willingness to travel.",
     },
   ]);
   const [input, setInput] = useState("");
