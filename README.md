@@ -88,3 +88,5 @@ Restart the dev server after configuring these values. Visitor replies go to the
 ## Kwanda chat in production
 
 Set OPENAI_API_KEY in the Vercel Production environment and redeploy to enable AI replies. OPENAI_CHAT_MODEL is optional and defaults to gpt-4o-mini. Kwanda uses the public portfolio as its source. If the API key is missing, the model request fails, or the endpoint cannot be reached, the chat switches to a built-in portfolio guide.
+
+If production still uses the portfolio guide after redeploying, send a sample chat question and look for `Kwanda portfolio fallback` in Vercel Runtime Logs. The reason distinguishes a missing key, invalid credentials, quota, rate limits, and provider timeouts. The log excludes the key and visitor messages.

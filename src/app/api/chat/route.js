@@ -8,7 +8,20 @@ const systemPrompt = `You are Kwanda, Ayanda Kweyama’s portfolio assistant. Us
 
 ${portfolioContext}`;
 
-let retryProviderAfter = 0;
+export const maxDuration = 30;
+
+const defaultModel = "gpt-4o-mini";
+const providerTimeout = 18_000;
+
+function logFallback(reason, model, error) {
+  console.warn("Kwanda portfolio fallback", {
+    reason,
+    model,
+    status: error?.status,
+    code: error?.code,
+    requestId: error?.requestID,
+  });
+}
 
 export async function POST(request) {
   const ip = request.ip || request.headers.get("x-real-ip") || request.headers.get("x-forwarded-for")?.split(",").at(-1)?.trim() || "unknown";
@@ -29,23 +42,48 @@ export async function POST(request) {
 
   const fallback = () => Response.json({ ...portfolioReply(messages), mode: "portfolio" });
   const apiKey = process.env.OPENAI_API_KEY?.trim();
-  if (!apiKey || Date.now() < retryProviderAfter) return fallback();
-
-  try {
-    const client = new OpenAI({ apiKey, timeout: 6000, maxRetries: 0 });
-    const completion = await client.chat.completions.create({
-      model: process.env.OPENAI_CHAT_MODEL?.trim() || "gpt-4o-mini",
-      messages: [
-        { role: "system", content: systemPrompt },
-        ...messages.map(({ role, content }) => ({ role, content: content.trim() })),
-      ],
-      max_completion_tokens: 400,
-    });
-    const message = completion.choices?.[0]?.message?.content?.trim();
-    return message ? Response.json({ message, mode: "ai" }) : fallback();
-  } catch (error) {
-    retryProviderAfter = Date.now() + 30_000;
-    console.warn("Kwanda provider unavailable", { status: error.status, code: error.code, name: error.name });
+  const model = process.env.OPENAI_CHAT_MODEL?.trim() || defaultModel;
+  if (!apiKey) {
+    logFallback("missing_production_key", model);
     return fallback();
   }
+
+  const client = new OpenAI({ apiKey, maxRetries: 0 });
+  const signal = AbortSignal.timeout(providerTimeout);
+  const conversation = [
+    { role: "system", content: systemPrompt },
+    ...messages.map(({ role, content }) => ({ role, content: content.trim() })),
+  ];
+  const complete = (selectedModel) => client.chat.completions.create({
+    model: selectedModel,
+    messages: conversation,
+    max_completion_tokens: 400,
+  }, { signal });
+
+  let activeModel = model;
+  try {
+    let completion;
+    try {
+      completion = await complete(activeModel);
+    } catch (error) {
+      if (activeModel === defaultModel || error?.code !== "model_not_found") throw error;
+      logFallback("configured_model_unavailable_trying_default", activeModel, error);
+      activeModel = defaultModel;
+      completion = await complete(activeModel);
+    }
+
+    const message = completion.choices?.[0]?.message?.content?.trim();
+    if (message) return Response.json({ message, mode: "ai" });
+
+    logFallback("empty_model_reply", activeModel);
+  } catch (error) {
+    const reason = signal.aborted ? "provider_timeout"
+      : error?.status === 401 ? "invalid_key"
+      : error?.code === "insufficient_quota" ? "insufficient_quota"
+      : error?.status === 429 ? "provider_rate_limit"
+      : error?.status === 403 ? "provider_access_denied"
+      : "provider_error";
+    logFallback(reason, activeModel, error);
+  }
+  return fallback();
 }

@@ -64,7 +64,7 @@ export default function ChatPanel({ isOpen }) {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        signal: AbortSignal.timeout(8500),
+        signal: AbortSignal.timeout(23_000),
         body: JSON.stringify({
           messages: updatedMessages.slice(-chatHistoryLimit).map(({ role, content }) => ({
             role,
@@ -115,7 +115,7 @@ export default function ChatPanel({ isOpen }) {
             </div>
             <div className="ml-auto flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-[10px] text-foreground/60">{replyMode === "ai" ? "AI chat" : "Portfolio guide"}</span>
+              <span className="text-[10px] text-foreground/60">{replyMode === "ai" ? "AI chat" : replyMode === "portfolio" ? "Portfolio guide" : ""}</span>
             </div>
           </div>
 
